@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	  <Version>3.5.22</Version>
+	  <Version>3.5.23</Version>
 	  <Authors>Sergi Ortiz Gomez</Authors>
 	  <Company>DrUalcman</Company>
 	  <Description>Component Blazor extend InputFile with drag and drop, copy and paste and all the necessary to upload files.
@@ -16,13 +16,15 @@
 	  <RepositoryUrl>https://github.com/drualcman/BlazorBasics.InputFileExtended</RepositoryUrl>
 	  <PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 	  <PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
-	  <PackageReleaseNotes>Versoin 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
+	  <PackageReleaseNotes>
+		  Versoin 3.5.23: Removed not used injections.
+		  Versoin 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
 	  </PackageReleaseNotes>
 	  <RepositoryType>Git</RepositoryType>
 	  <PackageIcon>icon-512.png</PackageIcon>
 	  <PackageIconUrl />
-	  <AssemblyVersion>3.5.22</AssemblyVersion>
-	  <FileVersion>3.5.22</FileVersion>
+	  <AssemblyVersion>3.5.23</AssemblyVersion>
+	  <FileVersion>3.5.23</FileVersion>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
