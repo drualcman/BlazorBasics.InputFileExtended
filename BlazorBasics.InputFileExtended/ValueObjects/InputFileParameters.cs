@@ -5,7 +5,11 @@
 public class InputFileParameters
 {
     /// <summary>
-    /// Enable or dissable copay and pase. Default desabled
+    /// Enable or dissable show file list. Default enabled
+    /// </summary>
+    public bool ShowFileList { get; set; } = true;
+    /// <summary>
+    /// Enable or dissable copy and pase. Default desabled
     /// </summary>
     public bool AllowPasteFiles { get; set; }
 

@@ -37,8 +37,6 @@
         }
     </label>
 
-
-
     if(Parameters.ButtonOptions.ButtonShow)
     {
         <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
@@ -54,7 +52,7 @@
         </button>
     }
 
-    if(Files.Count > 0)
+    if(Files.Count > 0 && Parameters.ShowFileList)
     {
         <div class="@Parameters.PreviewOptions.PreviewWrapperCss">
             @foreach(FileUploadContent file in Files)
