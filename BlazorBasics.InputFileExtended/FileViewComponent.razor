@@ -1,0 +1,27 @@
+@if(ChildContent is null)
+{
+    if(Options.IsImage && Options.ShowPreview)
+    {
+        <figure>
+            <img src="@File.ToImageHTML" class="@Options.ImagePreviewCss" />
+            @if(OnRemove.HasDelegate)
+            {
+                <span @onclick=OnRemove>X</span>
+            }
+        </figure>
+    }
+    else
+    {
+        <div>
+            @File.Name (@File.Size)
+            @if(OnRemove.HasDelegate)
+            {
+                <span @onclick=OnRemove>X</span>
+            }
+        </div>
+    }
+}
+else
+{
+    @ChildContent(File)
+}

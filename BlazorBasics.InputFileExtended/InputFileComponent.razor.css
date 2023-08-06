@@ -1,0 +1,61 @@
+﻿::deep input[type="file"] {
+    display: none;
+}
+
+.input-file {
+    padding: 0.3rem 2rem;
+    box-shadow: darkgrey 0 0 0.5rem 0.1rem;
+    border-radius: 0.2rem;
+    display: inline-block;
+    margin: 0 0.3rem;
+    text-align: center;
+    background: #f5f5f5;
+}
+
+.button-upload {
+    background: #00188a;
+    color: whitesmoke;
+}
+
+.info {
+    color: forestgreen;
+    width: 100%;
+}
+
+.drop-zone {
+    cursor: pointer;
+    border: 2px dashed rgba(0,0,0,.25);
+    border-radius: 1.5rem;
+    text-align: center;
+    line-height: 3rem;
+    font-size: 1.5rem;
+    color: rgba(0,0,0,.25);
+}
+
+.drop-zone-drag {
+    border: 2px dashed rgba(0,0,0,.65);
+    color: rgba(0,0,0,.65);
+}
+
+.error-label {
+    color: red;
+    font-size: smaller;
+    padding: 5px;
+    margin: 5px auto;
+    width: 100%;
+    display: inline-block;
+    text-align: left;
+}
+
+
+.image-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px
+}
+
+.choose {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: medium;
+}

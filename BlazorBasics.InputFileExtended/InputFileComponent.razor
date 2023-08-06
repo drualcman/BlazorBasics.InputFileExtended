@@ -1,0 +1,83 @@
+﻿@namespace BlazorBasics.InputFileExtended
+
+@if(SuccessLoad)
+{
+    <label @ref=InputFileReference
+    @attributes=Attributes
+           class="input-file @(Parameters.DragAndDropOptions.CanDropFiles ? DropZoneCss : "") @(IsDropping ? Dropping : "")"
+           for="@InputFileId"
+    @ondragenter="DragEnter"
+    @ondrop="DragLeave"
+    @ondragleave="DragLeave">
+        <InputFile multiple="@Parameters.MultiFile"
+                   accept="@InputFileTypes"
+                   id="@InputFileId"
+                   OnChange="Change" />
+        @if(string.IsNullOrEmpty(SelectionInfo))
+        {
+            @if(InputContent is null)
+            {
+                <span class="choose">Choose File</span>
+            }
+            else
+            {
+                @InputContent
+            }
+        }
+        else
+        {
+            @if(SelectContent is null)
+            {
+                <span class="info">@SelectionInfo</span>
+            }
+            else
+            {
+                @SelectContent(Files.Count)
+            }
+        }
+    </label>
+
+
+
+    if(Parameters.ButtonOptions.ButtonShow)
+    {
+        <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
+        @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
+            @if(ButtonContent is null)
+            {
+                <span>Upload</span>
+            }
+            else
+            {
+                @ButtonContent
+            }
+        </button>
+    }
+
+    if(Files.Count > 0)
+    {
+        <div class="@Parameters.PreviewOptions.PreviewWrapperCss">
+            @foreach(FileUploadContent file in Files)
+            {
+                if(ChildContent is null)
+                {
+                    <FileViewComponent File=file Options=Parameters.PreviewOptions OnRemove="()=> Files.Remove(file)" />
+                }
+                else
+                {
+                    @ChildContent(file)
+                }
+            }
+        </div>
+    }
+}
+@if(!OnError.HasDelegate)
+{
+    <label class="error-label">@(new MarkupString(ErrorMessages))</label>
+}
+@if(!string.IsNullOrEmpty(APIErrorMessages))
+{
+    <label class="error-label">@(new MarkupString(APIErrorMessages))</label>
+}
+
+

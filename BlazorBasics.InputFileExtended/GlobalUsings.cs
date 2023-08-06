@@ -1,0 +1,10 @@
+global using BlazorBasics.InputFileExtended.Exceptions;
+global using BlazorBasics.InputFileExtended.Handlers;
+global using BlazorBasics.InputFileExtended.Helpers;
+global using BlazorBasics.InputFileExtended.Models;
+global using BlazorBasics.InputFileExtended.ValueObjects;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.Forms;
+global using Microsoft.JSInterop;
+global using System.ComponentModel.DataAnnotations;
+global using System.Text;
