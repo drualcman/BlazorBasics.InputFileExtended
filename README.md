@@ -13,7 +13,7 @@ Add into your component:
 <InputFileComponent OnChange=LoadFiles />
 
 @code {
-    private void LoadFiles(InputFileChangeEventArgs e)
+    private void LoadFiles(FilesUploadEventArgs e)
     {
         ...
     }
@@ -34,7 +34,7 @@ Add into your component:
         }
     };
 
-    private void LoadFiles(InputFileChangeEventArgs e)
+    private void LoadFiles(FilesUploadEventArgs e)
     {
         // ...
     }
@@ -52,7 +52,7 @@ Add into your component:
         AllowPasteFiles = true
     };
 
-    private void LoadFiles(InputFileChangeEventArgs e)
+    private void LoadFiles(FilesUploadEventArgs e)
     {
         // ...
     }
