@@ -13,7 +13,7 @@
 	  <Copyright>Free</Copyright>
 	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <RepositoryUrl>https://github.com/drualcman/BlazorInputFileExtended</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/drualcman/BlazorBasics.InputFileExtended</RepositoryUrl>
 	  <PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 	  <PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 	  <PackageReleaseNotes>Versoin 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
