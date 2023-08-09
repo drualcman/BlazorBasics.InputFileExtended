@@ -49,7 +49,8 @@ public partial class InputFileComponent
 
     async Task SendFile()
     {
-        if(Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles()))
+        bool result = await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
+        if(result)
         {
            if(Parameters.ButtonOptions.CleanOnSuccessUpload)
                 Clean();
