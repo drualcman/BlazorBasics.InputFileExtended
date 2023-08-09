@@ -67,10 +67,11 @@ Add into your component:
 @code {
     BlazorBasics.InputFileExtended.ValueObjects.InputFileParameters Parameters;
 
-    bool UploadFles(IReadOnlyList<BlazorBasics.InputFileExtended.Models.FileUploadContent> files)
+    Task<bool> UploadFles(IReadOnlyList<BlazorBasics.InputFileExtended.Models.FileUploadContent> files)
     {
         // process your upload
         // ...
+        await Task.Delay(1);
         return true;
     }
 
