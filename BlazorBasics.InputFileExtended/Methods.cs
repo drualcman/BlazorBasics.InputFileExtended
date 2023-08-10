@@ -18,24 +18,37 @@ public partial class InputFileComponent
     /// </summary>
     public async Task FormSave()
     {
-        if(Model is null)
+        bool isValid = true;
+        if(Parameters.ButtonOptions.OnBeforeSubmit is not null)
         {
-            await SendFile();
+            await Parameters.ButtonOptions.OnBeforeSubmit.Invoke(Files.GetFiles());
         }
-        else if(Model.Validate())
+        if(Model is null)
         {
             await SendFile();
         }
         else
         {
-            StringBuilder errors = new StringBuilder();
-            foreach(string err in Model.GetValidationMessages())
+            isValid = Model.Validate();
+            if(isValid)
             {
-                errors.Append(err);
-                errors.Append(", ");
+                await SendFile();
             }
-            errors.Remove(errors.Length - 2, 2);
-            await OnError.InvokeAsync(new InputFileException(errors.ToString(), "Save"));
+            else
+            {
+                StringBuilder errors = new StringBuilder();
+                foreach(string err in Model.GetValidationMessages())
+                {
+                    errors.Append(err);
+                    errors.Append(", ");
+                }
+                errors.Remove(errors.Length - 2, 2);
+                await OnError.InvokeAsync(new InputFileException(errors.ToString(), "Save"));
+            }
+        }
+        if(Parameters.ButtonOptions.OnAfterSubmit is not null)
+        {
+            await Parameters.ButtonOptions.OnAfterSubmit.Invoke(isValid);
         }
     }
     #endregion
@@ -49,12 +62,9 @@ public partial class InputFileComponent
 
     async Task SendFile()
     {
-        bool result = await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
-        if(result)
-        {
-           if(Parameters.ButtonOptions.CleanOnSuccessUpload)
-                Clean();
-        }
+        await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
+        if(Parameters.ButtonOptions.CleanOnSuccessUpload)
+            Clean();
         await InvokeAsync(StateHasChanged);
     }
 
