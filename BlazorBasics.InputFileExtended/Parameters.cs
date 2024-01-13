@@ -88,5 +88,7 @@ public partial class InputFileComponent
             InvokeAsync(StateHasChanged);
             throw new ArgumentException($"If {nameof(Parameters.ButtonOptions.ButtonShow)} is true. {nameof(Parameters.ButtonOptions.OnSubmit)} is required.", nameof(Parameters.ButtonOptions.OnSubmit));
         }
+
+        if(Attributes is not null && Attributes.TryGetValue("class", out object value)) LabelWrapperCss = value.ToString();
     }
 }
