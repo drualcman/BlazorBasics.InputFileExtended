@@ -55,9 +55,10 @@ public partial class InputFileComponent
 
     #region private
     async Task Change(InputFileChangeEventArgs e)
-    {
-        ErrorMessages = string.Empty;
+    {                                
+        CleanErrorMessages();
         await Files.UploadFile(e);
+        Rows = Files.Count;
     }
 
     async Task SendFile()
@@ -81,6 +82,24 @@ public partial class InputFileComponent
             Console.WriteLine(ex.Message);
             return null;
         }
+    }          
+
+    private void RemoveFile(FileUploadContent file)
+    {
+        if(Files.Remove(file))
+        {
+            Rows = Files.Count;
+            if (!Files.UploadedFiles.Any()) SelectionInfo = string.Empty;
+        }
+        CleanErrorMessages();
+    } 
+
+    private void Remove(FileUploadContent file) => Console.WriteLine($"File: {file.Name} removed from the selection");
+
+    void CleanErrorMessages()
+    {
+        APIErrorMessages = string.Empty;
+        ErrorMessages = string.Empty;
     }
     #endregion
 

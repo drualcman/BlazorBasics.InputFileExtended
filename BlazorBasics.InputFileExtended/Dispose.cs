@@ -20,5 +20,6 @@ public partial class InputFileComponent : IDisposable, IAsyncDisposable
     {
         await UnLoadPaseteScript();
         await UnLoadDropScriptsAsync();
+        GlobalEvents.ItemDeleted -= RemoveFile;
     }
 }

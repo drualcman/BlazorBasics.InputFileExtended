@@ -3,13 +3,13 @@
 @if(SuccessLoad)
 {
     <label @ref=InputFileReference
-    @attributes=Attributes
-           class="input-file @(Parameters.DragAndDropOptions.CanDropFiles ? DropZoneCss : "") @(IsDropping ? Dropping : "")"
+           @attributes=Attributes
+           class="@LabelWrapperCss @(Parameters.DragAndDropOptions.CanDropFiles ? DropZoneCss : "") @(IsDropping ? Dropping : "")"
            for="@InputFileId"
-    @ondragenter="DragEnter"
-    @ondrop="DragLeave"
-    @ondragleave="DragLeave">
-        <InputFile multiple="@Parameters.MultiFile"
+           @ondragenter="DragEnter"
+           @ondrop="DragLeave"
+           @ondragleave="DragLeave">
+        <InputFile multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
                    accept="@InputFileTypes"
                    id="@InputFileId"
                    OnChange="Change" />
@@ -40,7 +40,7 @@
     if(Parameters.ButtonOptions.ButtonShow)
     {
         <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
-        @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
+                @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
             @if(ButtonContent is null)
             {
                 <span>Upload</span>
@@ -55,17 +55,26 @@
     if(Files.Count > 0 && Parameters.ShowFileList)
     {
         <div class="@Parameters.PreviewOptions.PreviewWrapperCss">
-            @foreach(FileUploadContent file in Files)
+            @for(int i = 0; i < Rows; i++)
             {
+                int r = i;
                 if(ChildContent is null)
                 {
-                    <FileViewComponent File=file Options=Parameters.PreviewOptions OnRemove="()=> Files.Remove(file)" />
+                    if(Parameters.PreviewOptions.ShowPreview)
+                    {
+                        <FilePreviewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="()=> Remove(Files[r])" />
+                    }
+                    else
+                    {
+                        <FileViewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="()=> Remove(Files[r])" />
+                    }
                 }
                 else
                 {
-                    @ChildContent(file)
+                    @ChildContent(Files[i])
                 }
             }
+
         </div>
     }
 }

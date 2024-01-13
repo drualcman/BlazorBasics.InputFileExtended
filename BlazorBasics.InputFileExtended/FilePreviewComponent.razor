@@ -1,20 +1,20 @@
 @inherits FileViewBase
 @if(ChildContent is null)
 {
-    <div @attributes=Attributes>
-        @File.Name (@File.Size)
+    <figure @attributes=Attributes>
+        <img src="@File.ToImageHTML" class="@Options.ImagePreviewCss" />
         @if(OnRemove.HasDelegate)
         {
             <span @onclick=Remove>X</span>
         }
         else
         {
-            if(Options.CanDeleteIfNotCallBack)
+            if (Options.CanDeleteIfNotCallBack)
             {
                 <span @onclick="() => GlobalEvents.OnItemDeleted(File)">X</span>
             }
         }
-    </div>
+    </figure>
 }
 else
 {

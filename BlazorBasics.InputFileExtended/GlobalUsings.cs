@@ -8,3 +8,4 @@ global using Microsoft.AspNetCore.Components.Forms;
 global using Microsoft.JSInterop;
 global using System.ComponentModel.DataAnnotations;
 global using System.Text;
+global using BlazorBasics.InputFileExtended.Events;

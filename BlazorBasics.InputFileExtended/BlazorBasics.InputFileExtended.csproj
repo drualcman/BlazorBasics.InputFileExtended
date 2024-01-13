@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+	  <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	  <Version>3.5.24</Version>
+	  <Version>3.5.26</Version>
 	  <Authors>Sergi Ortiz Gomez</Authors>
-	  <Company>DrUalcman</Company>
+	  <Company>Digital Door Aus</Company>
 	  <Description>Component Blazor extend InputFile with drag and drop, copy and paste and all the necessary to upload files.
  Also have a InputFileHandler can be inherit for extent and add more functions like authentication.	  </Description>
 	  <Copyright>Free</Copyright>
@@ -17,6 +17,8 @@
 	  <PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 	  <PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 	  <PackageReleaseNotes>
+		  Versoin 3.5.26: Create new component FilePreviewComponent to separate the logic when it's a preview image or only list image. Fixed don't remove error message after fix the issue and or selecte a new file. Add 2 new properties to the options. In the general InputFileCss and in PreviewOptions CanDeleteIfNotCallBack to show a delete button when no callback action set. .
+		  Versoin 3.5.25: Update Nuget and NET versions
 		  Versoin 3.5.24: Add 2 new Func properties in ButtonOptions. OnBeforeSubmit and OnAfterSubmit. If user want to do some code before and after submit the form.
 		  Versoin 3.5.23: Add parameter to hide show the list of the files. Change Parameter buttonOptions OnSubmit to Func to return a Task bool. Removed not used injections.
 		  Versoin 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
@@ -24,8 +26,8 @@
 	  <RepositoryType>Git</RepositoryType>
 	  <PackageIcon>icon-512.png</PackageIcon>
 	  <PackageIconUrl />
-	  <AssemblyVersion>3.5.24</AssemblyVersion>
-	  <FileVersion>3.5.24</FileVersion>
+	  <AssemblyVersion>3.5.26</AssemblyVersion>
+	  <FileVersion>3.5.26</FileVersion>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -50,7 +52,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.19" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.26" Condition="'$(TargetFramework)' == 'net6.0'" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.15" Condition="'$(TargetFramework)' == 'net7.0'" />
+	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1" Condition="'$(TargetFramework)' == 'net8.0'" />
   </ItemGroup>
 
 </Project>

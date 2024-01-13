@@ -22,6 +22,8 @@ public partial class InputFileComponent
     string SelectionInfo;
     string InputFileTypes;
     bool SuccessLoad = true;
+    string LabelWrapperCss = "input-file";
+    int Rows;
     #endregion
 
 
@@ -35,7 +37,9 @@ public partial class InputFileComponent
         Files.OnUploadFile += Files_OnUploadFile;
         Files.OnUploadError += Files_OnUploadError;
         Files.OnAPIError += Files_OnAPIError;
-        SelectionInfo = string.Empty;
+        SelectionInfo = string.Empty;   
+        Rows = Files.Count;
+        GlobalEvents.ItemDeleted += RemoveFile;
     }
 
     /// <summary>
@@ -51,9 +55,4 @@ public partial class InputFileComponent
         }
     }
 
-    private void Files_OnAPIError(object sender, InputFileException e)
-    {
-        APIErrorMessages = e.Message;
-        InvokeAsync(StateHasChanged);
-    }
 }
