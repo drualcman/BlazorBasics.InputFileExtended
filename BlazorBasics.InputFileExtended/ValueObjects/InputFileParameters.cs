@@ -31,7 +31,12 @@ public class InputFileParameters
     /// <summary>
     /// File types accepted. Example: image/*
     /// </summary>
-    public string InputFileTypes { get; set; } = string.Empty;
+    public string InputFileTypes { get; set; } = string.Empty; 
+    
+    /// <summary>
+    /// CSS for the input file
+    /// </summary>
+    public string InputFileCss { get; set; } = string.Empty;   
 
     /// <summary>
     /// Setup button for upload like a container class

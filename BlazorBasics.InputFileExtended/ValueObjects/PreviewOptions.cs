@@ -19,5 +19,9 @@ public class PreviewOptions
     /// <summary>
     /// CSS class for the image file preview
     /// </summary>
-    public string ImagePreviewCss { get; set; } = "image";
+    public string ImagePreviewCss { get; set; } = "image"; 
+    /// <summary>
+    /// Enable can delete if not eventcallback set
+    /// </summary>
+    public bool CanDeleteIfNotCallBack { get; set; }
 }
