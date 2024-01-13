@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace BlazorBasics.InputFileExtended.Handlers;
+﻿namespace BlazorBasics.InputFileExtended.Handlers;
 
 public partial class InputFileHandler
 {
@@ -421,7 +419,4 @@ public partial class InputFileHandler
             OnUploaded(this, new FilesUploadEventArgs { Files = null, Count = c, Size = t, Action = EventAction.Clean });
         }
     }
-
-    public bool MoveNext() => throw new NotImplementedException();
-    public void Reset() => throw new NotImplementedException();
 }
