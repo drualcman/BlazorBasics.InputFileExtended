@@ -2,7 +2,6 @@
 
 public partial class InputFileComponent
 {
-    #region handlers
     private void Files_OnUploaded(object sender, FilesUploadEventArgs e) =>
         OnChange.InvokeAsync(e);
 
@@ -34,6 +33,10 @@ public partial class InputFileComponent
                 $"{(e.ExceptionType == ExceptionType.MaxSize ? $" File size {e.FileMbBytes.ToString("N2")}Mb ({e.FileBytes} bytes) overflow maximum size is {e.MaxFileMbBytes.ToString("N2")}Mb ({e.MaxFileBytes} bytes). " : "")}" +
                 $"{(e.ExceptionType == ExceptionType.MaxCount ? $" Max files selected {e.MaxFilesAllowed}. " : "")}";
     }
-    #endregion
-
+    
+    private void Files_OnAPIError(object sender, InputFileException e)
+    {
+        APIErrorMessages = e.Message;
+        InvokeAsync(StateHasChanged);
+    }
 }
