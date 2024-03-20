@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	  <Version>3.5.26</Version>
+	  <Version>3.5.27</Version>
 	  <Authors>Sergi Ortiz Gomez</Authors>
 	  <Company>Digital Door Aus</Company>
 	  <Description>Component Blazor extend InputFile with drag and drop, copy and paste and all the necessary to upload files.
