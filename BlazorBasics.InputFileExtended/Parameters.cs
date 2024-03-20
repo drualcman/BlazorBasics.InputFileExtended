@@ -78,7 +78,8 @@ public partial class InputFileComponent
         Files.SetMaxFiles(Parameters.MaxUploatedFiles);
         Files.SetMaxFileSize(Parameters.MaxFileSize);
 
-        if(Parameters.PreviewOptions.IsImage && string.IsNullOrEmpty(Parameters.InputFileTypes)) InputFileTypes = "image/*";
+        InputFileTypes = Parameters.InputFileTypes;
+        if (Parameters.PreviewOptions.IsImage && string.IsNullOrEmpty(Parameters.InputFileTypes)) InputFileTypes = "image/*";
 
         if(Parameters.ButtonOptions.ButtonShow &&
            Parameters.ButtonOptions.OnSubmit is null)
