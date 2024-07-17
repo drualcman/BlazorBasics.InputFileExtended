@@ -92,9 +92,19 @@ public partial class InputFileComponent
             if (!Files.UploadedFiles.Any()) SelectionInfo = string.Empty;
         }
         CleanErrorMessages();
-    } 
+    }
 
-    private void Remove(FileUploadContent file) => Console.WriteLine($"File: {file.Name} removed from the selection");
+    private async Task Remove(FileUploadContent file)
+    {
+        FilesUploadEventArgs removed = new FilesUploadEventArgs
+        {
+            Action = EventAction.Removed,
+            Files = new List<FileUploadContent>() { file },
+            Count = 1,
+            Size = file.Size
+        };
+        await OnChange.InvokeAsync(removed);
+    }
 
     void CleanErrorMessages()
     {
