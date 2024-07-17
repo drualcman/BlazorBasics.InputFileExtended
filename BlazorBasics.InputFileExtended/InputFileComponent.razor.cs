@@ -49,10 +49,10 @@ public partial class InputFileComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
-        {                                    
+        {            
+            await LoadFileEventsScript();
             await LoadPasteScript();
             await LoadDragAdnDropScripts();
         }
     }
-
 }

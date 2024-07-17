@@ -18,8 +18,9 @@ public partial class InputFileComponent : IDisposable, IAsyncDisposable
     /// <returns></returns>
     public async ValueTask DisposeAsync()
     {
-        await UnLoadPaseteScript();
+        await UnLoadPasteScript();
         await UnLoadDropScriptsAsync();
+        await UnLoadFileEventsScript();
         GlobalEvents.ItemDeleted -= RemoveFile;
     }
 }
