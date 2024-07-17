@@ -11,7 +11,7 @@ public partial class InputFileComponent
 
     #region Management
     /// <summary>
-    /// Add the scripts fro can drop files
+    /// Add the scripts for can drop files
     /// </summary>
     /// <returns></returns>
     async Task LoadDragAdnDropScripts()

@@ -6,7 +6,7 @@ public partial class InputFileComponent
 
     #region Management
     /// <summary>
-    /// Add the scripts fro can drop files
+    /// Add the scripts for can pase files
     /// </summary>
     /// <returns></returns>
     async Task LoadPasteScript()
@@ -29,10 +29,10 @@ public partial class InputFileComponent
 
 
     /// <summary>
-    /// Remove drag and drop options
+    /// Remove paste options
     /// </summary>
     /// <returns></returns>
-    async Task UnLoadPaseteScript()
+    async Task UnLoadPasteScript()
     {            
         // disabled paste files
         if(Parameters.AllowPasteFiles && PasteScriptsReference is not null)
