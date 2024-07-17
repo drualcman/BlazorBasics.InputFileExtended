@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components.Web;
+
 namespace BlazorBasics.InputFileExtended;
 
 public partial class InputFileComponent
@@ -53,6 +55,15 @@ public partial class InputFileComponent
             await LoadFileEventsScript();
             await LoadPasteScript();
             await LoadDragAdnDropScripts();
+        }
+    }
+
+    async Task OnClick()
+    {
+        if (Parameters.OnShouldCancelClick is not null)
+        {
+            bool cancel = await Parameters.OnShouldCancelClick.Invoke();
+            await FileEventScriptsReference.InvokeVoidAsync("PreventDefault", InputFileId, cancel);
         }
     }
 }

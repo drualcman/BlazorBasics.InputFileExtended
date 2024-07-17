@@ -53,5 +53,10 @@ public class InputFileParameters
     /// </summary>
     public DragAndDropOptions DragAndDropOptions { get; set; } = new();
 
+    /// <summary>
+    /// Delegate to execute some code before execute the click. Return true if want to cancel the click event
+    /// </summary>
+    public Func<Task<bool>> OnShouldCancelClick;
+
 
 }

@@ -11,18 +11,14 @@ public partial class InputFileComponent
     /// <returns></returns>
     async Task LoadFileEventsScript()
     {
-        if (Parameters.AllowPasteFiles)
+        try
         {
-
-            try
-            {
-                FileEventScriptsReference = await GetJSObjectReference("file-dialog");
-            }
-            catch (Exception ex)
-            {
-                FileEventScriptsReference = null;
-                Console.WriteLine(ex.Message);
-            }
+            FileEventScriptsReference = await GetJSObjectReference("file-events");
+        }
+        catch (Exception ex)
+        {
+            FileEventScriptsReference = null;
+            Console.WriteLine(ex.Message);
         }
     }
 

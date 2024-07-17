@@ -8,7 +8,9 @@
            for="@InputFileId"
            @ondragenter="DragEnter"
            @ondrop="DragLeave"
-           @ondragleave="DragLeave">
+           @ondragleave="DragLeave"
+           @onclick=OnClick
+    >
         <InputFile multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
                    accept="@InputFileTypes"
                    id="@InputFileId"
