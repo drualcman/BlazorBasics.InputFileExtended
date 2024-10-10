@@ -1,63 +1,62 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-	  <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-	  <Version>3.6.29</Version>
-	  <Authors>Sergi Ortiz Gomez</Authors>
-	  <Company>Digital Door Aus</Company>
-	  <Description>Component Blazor extend InputFile with drag and drop, copy and paste and all the necessary to upload files.
- Also have a InputFileHandler can be inherit for extent and add more functions like authentication.	  </Description>
-	  <Copyright>Free</Copyright>
-	  <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <RepositoryUrl>https://github.com/drualcman/BlazorBasics.InputFileExtended</RepositoryUrl>
-	  <PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
-	  <PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
-	  <PackageReleaseNotes>
-		  Version 3.6.29: Add Openfiledialog public method for can fired upload files with no click from user and do by code. Add Parameter to can cancel the click on the Inputfile with some code when you click on the Inputfile. Fixed and notify OnChange event when the file it's removed from the collection. Update nugets.
-		  Version 3.5.28: Fixed null reference when try to use the context inside the unputfilecomponent to personalize the preview file.
-		  Version 3.5.27: Fixed Parameters.InputFileTypes when is set not get a value.
-		  Version 3.5.26: Create new component FilePreviewComponent to separate the logic when it's a preview image or only list image. Fixed don't remove error message after fix the issue and or selecte a new file. Add 2 new properties to the options. In the general InputFileCss and in PreviewOptions CanDeleteIfNotCallBack to show a delete button when no callback action set. .
-		  Version 3.5.25: Update Nuget and NET versions
-		  Version 3.5.24: Add 2 new Func properties in ButtonOptions. OnBeforeSubmit and OnAfterSubmit. If user want to do some code before and after submit the form.
-		  Version 3.5.23: Add parameter to hide show the list of the files. Change Parameter buttonOptions OnSubmit to Func to return a Task bool. Removed not used injections.
-		  Version 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
-	  </PackageReleaseNotes>
-	  <RepositoryType>Git</RepositoryType>
-	  <PackageIcon>icon-512.png</PackageIcon>
-	  <PackageIconUrl />
-	  <AssemblyVersion>3.6.29</AssemblyVersion>
-	  <FileVersion>3.6.29</FileVersion>
-	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Version>3.7.30</Version>
+		<Authors>Sergi Ortiz Gomez</Authors>
+		<Company>DrUalcman</Company>
+		<Description>
+			Component Blazor extend InputFile with drag and drop, copy and paste and all the necessary to upload files.
+			Also have a InputFileHandler can be inherit for extent and add more functions like authentication.
+		</Description>
+		<Copyright>Free</Copyright>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/drualcman/BlazorBasics.InputFileExtended</RepositoryUrl>
+		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
+		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
+		<PackageReleaseNotes>
+			Version 3.7.30: Removed support for NET6 and NET7. Update nugets.
+			Version 3.6.29: Add Openfiledialog public method for can fired upload files with no click from user and do by code. Add Parameter to can cancel the click on the Inputfile with some code when you click on the Inputfile. Fixed and notify OnChange event when the file it's removed from the collection. Update nugets.
+			Version 3.5.28: Fixed null reference when try to use the context inside the unputfilecomponent to personalize the preview file.
+			Version 3.5.27: Fixed Parameters.InputFileTypes when is set not get a value.
+			Version 3.5.26: Create new component FilePreviewComponent to separate the logic when it's a preview image or only list image. Fixed don't remove error message after fix the issue and or selecte a new file. Add 2 new properties to the options. In the general InputFileCss and in PreviewOptions CanDeleteIfNotCallBack to show a delete button when no callback action set. .
+			Version 3.5.25: Update Nuget and NET versions
+			Version 3.5.24: Add 2 new Func properties in ButtonOptions. OnBeforeSubmit and OnAfterSubmit. If user want to do some code before and after submit the form.
+			Version 3.5.23: Add parameter to hide show the list of the files. Change Parameter buttonOptions OnSubmit to Func to return a Task bool. Removed not used injections.
+			Version 3.5.22: Moved from BlazorInputFileExtended to be supported by DigitalDoor. Add list of files when files are selected. Allow paste also independent if you enable drag and drop. Removed HttpClient dependency and use a delegate Task to upload with the button action.
+		</PackageReleaseNotes>
+		<RepositoryType>Git</RepositoryType>
+		<PackageIcon>icon-512.png</PackageIcon>
+		<PackageIconUrl />
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\icon-512.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\icon-512.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.32" Condition="'$(TargetFramework)' == 'net6.0'" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.20" Condition="'$(TargetFramework)' == 'net7.0'" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7" Condition="'$(TargetFramework)' == 'net8.0'" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.10" Condition="'$(TargetFramework)' == 'net8.0'" />
+	</ItemGroup>
 
 </Project>
