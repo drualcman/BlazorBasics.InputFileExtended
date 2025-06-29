@@ -29,7 +29,7 @@ public partial class InputFileComponent
     /// <summary>
     /// Button text
     /// </summary>
-    [Parameter] public RenderFragment ButtonContent { get; set; }  
+    [Parameter] public RenderFragment ButtonContent { get; set; }
 
     /// <summary>
     /// Button text
@@ -67,7 +67,8 @@ public partial class InputFileComponent
     /// </summary>
     protected override void OnParametersSet()
     {
-        if(Parameters is null) Parameters = new();
+        if(Parameters is null)
+            Parameters = new();
 
         if(Parameters.DragAndDropOptions.CanDropFiles)
         {
@@ -79,17 +80,19 @@ public partial class InputFileComponent
         Files.SetMaxFileSize(Parameters.MaxFileSize);
 
         InputFileTypes = Parameters.InputFileTypes;
-        if (Parameters.PreviewOptions.IsImage && string.IsNullOrEmpty(Parameters.InputFileTypes)) InputFileTypes = "image/*";
+        if(Parameters.PreviewOptions.IsImage && string.IsNullOrEmpty(Parameters.InputFileTypes))
+            InputFileTypes = "image/*";
 
         if(Parameters.ButtonOptions.ButtonShow &&
            Parameters.ButtonOptions.OnSubmit is null)
         {
             Parameters.ButtonOptions.ButtonShow = false;
-            APIErrorMessages = $"If <i>{nameof(Parameters.ButtonOptions.ButtonShow)}</i> is enabled then <i>{nameof(Parameters.ButtonOptions.OnSubmit)}</i> is <strong>Required</strong>.";            
+            APIErrorMessages = $"If <i>{nameof(Parameters.ButtonOptions.ButtonShow)}</i> is enabled then <i>{nameof(Parameters.ButtonOptions.OnSubmit)}</i> is <strong>required</strong>.";
             InvokeAsync(StateHasChanged);
             throw new ArgumentException($"If {nameof(Parameters.ButtonOptions.ButtonShow)} is true. {nameof(Parameters.ButtonOptions.OnSubmit)} is required.", nameof(Parameters.ButtonOptions.OnSubmit));
         }
 
-        if(Attributes is not null && Attributes.TryGetValue("class", out object value)) LabelWrapperCss = value.ToString();
+        if(Attributes is not null && Attributes.TryGetValue("class", out object value))
+            LabelWrapperCss = value.ToString();
     }
 }

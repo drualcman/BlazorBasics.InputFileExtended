@@ -25,10 +25,7 @@ public partial class InputFileHandler
             {
                 UploadedImage = null;
                 FileName = null;
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException("No images found", "UploadFile"));
-                }
+                throw new InputFileException("No images found", "UploadFile");
             }
             else
             {
@@ -37,25 +34,22 @@ public partial class InputFileHandler
 
                 if(e.FileCount > this.MaxAllowedFiles)
                 {
-                    if(OnUploadError is not null)
-                    {
-                        OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, "Max file count exception.", "UploadFile"));
-                    }
+                    throw new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, "Max file count exception.", "UploadFile");
                 }
                 else if(this.Count >= this.MaxAllowedFiles)
                 {
-                    if(OnUploadError is not null)
-                    {
-                        OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, "Max selected file count exception.", "UploadFile"));
-                    }
+                    throw new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, "Max selected file count exception.", "UploadFile");
                 }
                 else
                 {
-                    int files = 0;
                     long size = 0;
                     foreach(IBrowserFile file in e.GetMultipleFiles(maximumFileCount: MaxAllowedFiles))
                     {
                         size += file.Size;
+                        if(file.Size > this.MaxAllowedSize)
+                            throw new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"{file.Name}.", "UploadFile");
+                        if(size > this.MaxAllowedSize)
+                            throw new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"{file.Name} overflow.", "UploadFile");
                         StreamContent content = new StreamContent(file.OpenReadStream(maxAllowedSize: MaxAllowedSize));
                         FileUploadContent toAdd = new FileUploadContent
                         {
@@ -68,27 +62,42 @@ public partial class InputFileHandler
                         byte[] filebytes = await content.ReadAsByteArrayAsync();
                         toAdd.SetFileBytes(filebytes);
                         Add(toAdd);
-                        files++;
                     }
 
                     if(OnUploaded is not null)
                     {
-                        OnUploaded(this, new FilesUploadEventArgs { Files = UploadedFiles, Count = files, Size = size, Action = EventAction.Added });
+                        OnUploaded(this, new FilesUploadEventArgs { Files = UploadedFiles, Count = this.Count, Size = size, Action = EventAction.Added });
                     }
                 }
             }
         }
+        catch(InputFileException internalException)
+        {
+            if(OnUploadError is not null)
+            {
+                OnUploadError(this, internalException);
+            }
+        }
         catch(EndOfStreamException stream)
         {
-            OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"EndOfStreamException: {stream.Message}", "UploadFile", stream));
+            if(OnUploadError is not null)
+            {
+                OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"EndOfStreamException: {stream.Message}", "UploadFile", stream));
+            }
         }
         catch(FileLoadException load)
         {
-            OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"FileLoadException: {load.Message}", "UploadFile", load));
+            if(OnUploadError is not null)
+            {
+                OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"FileLoadException: {load.Message}", "UploadFile", load));
+            }
         }
         catch(IOException ioex)
         {
-            OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"IOException: ", "UploadFile", ioex));
+            if(OnUploadError is not null)
+            {
+                OnUploadError(this, new InputFileException(e, this.MaxAllowedSize, this.MaxAllowedFiles, $"IOException: ", "UploadFile", ioex));
+            }
         }
         catch(Exception ex)
         {
@@ -113,9 +122,7 @@ public partial class InputFileHandler
                 if(this.MaxAllowedFiles == 1)          //if only allowed 1 file always reset the dictionary
                     UploadedFiles = new List<FileUploadContent>();
 
-                int count = UploadedFiles.Count;
-
-                if(count < this.MaxAllowedFiles)
+                if(this.Count < this.MaxAllowedFiles)
                 {
                     //last image added is the default image to send
                     UploadedImage = image.FileStreamContent;
@@ -128,28 +135,28 @@ public partial class InputFileHandler
                 }
                 else
                 {
-                    if(OnUploadError is not null)
-                    {
-                        OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"Max files exception", "Add"));
-                    }
+                    throw new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"Max files exception", "Add");
                 }
             }
             else
             {
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {image.Name} overflow exception", "Add"));
-                }
+                throw new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"{image.Name}.", "Add");
+            }
+        }
+        catch(InputFileException internalException)
+        {
+            if(OnUploadError is not null)
+            {
+                OnUploadError(this, internalException);
             }
         }
         catch(Exception ex)
         {
             if(OnUploadError is not null)
             {
-                OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"Exception: {ex.Message}", "Add", ex));
+                OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"Exception: {ex.Message}", "Update", ex));
             }
         }
-
     }
 
     /// <summary>
@@ -159,7 +166,7 @@ public partial class InputFileHandler
     /// <param name="image"></param>
     public bool Update(int index, FileUploadContent image)
     {
-        bool result;
+        bool result = false;
         try
         {
             UploadedFiles[index] = image;
@@ -171,7 +178,6 @@ public partial class InputFileHandler
         }
         catch(IndexOutOfRangeException ix)
         {
-            result = false;
             if(OnUploadError is not null)
             {
                 OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"File index {index} not found", "AddUpdate", ix));
@@ -179,7 +185,6 @@ public partial class InputFileHandler
         }
         catch(Exception ex)
         {
-            result = false;
             if(OnUploadError is not null)
             {
                 OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"Exception: {ex.Message}", "Update", ex));
@@ -195,21 +200,19 @@ public partial class InputFileHandler
     /// <param name="image"></param>
     public bool Update(string fileName, FileUploadContent image)
     {
-        bool result;
+        bool result = false;
         try
         {
             FileUploadContent file = UploadedFiles.First(i => i.Name == fileName);
             if(file is null)
+                throw new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {fileName} not found", "AddUpdate");
+            result = Update(UploadedFiles.IndexOf(file), image);
+        }
+        catch(InputFileException internalException)
+        {
+            if(OnUploadError is not null)
             {
-                result = false;
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException(image, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {fileName} not found", "AddUpdate"));
-                }
-            }
-            else
-            {
-                result = Update(UploadedFiles.IndexOf(file), image);
+                OnUploadError(this, internalException);
             }
         }
         catch(Exception ex)
@@ -230,21 +233,19 @@ public partial class InputFileHandler
     /// <param name="image"></param>
     public bool Update(Guid id, FileUploadContent image)
     {
-        bool result;
+        bool result = false;
         try
         {
             FileUploadContent file = UploadedFiles.First(i => i.FileId == id);
             if(file is null)
+                throw new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {id} not found", "Update");
+            result = Update(UploadedFiles.IndexOf(file), image);
+        }
+        catch(InputFileException internalException)
+        {
+            if(OnUploadError is not null)
             {
-                result = false;
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {id} not found", "Update"));
-                }
-            }
-            else
-            {
-                result = Update(UploadedFiles.IndexOf(file), image);
+                OnUploadError(this, internalException);
             }
         }
         catch(Exception ex)
@@ -265,17 +266,16 @@ public partial class InputFileHandler
     /// <returns></returns>
     public bool Remove(int index)
     {
-        bool result;
+        bool result = false;
         try
         {
             result = Remove(UploadedFiles[index]);
         }
-        catch(IndexOutOfRangeException ix)
+        catch(InputFileException internalException)
         {
-            result = false;
             if(OnUploadError is not null)
             {
-                OnUploadError(this, new InputFileException($"File index {index} not found", "Remove", ix));
+                OnUploadError(this, internalException);
             }
         }
         catch(Exception ex)
@@ -296,38 +296,25 @@ public partial class InputFileHandler
     /// <returns></returns>
     public bool Remove(FileUploadContent file)
     {
-        bool result;
+        bool result = false;
         try
         {
             result = UploadedFiles.Remove(file);
-            if(result)
+        }
+        catch(IndexOutOfRangeException ix)
+        {
+            if(OnUploadError is not null)
             {
-                if(OnUploadFile is not null)
-                {
-                    OnUploadFile(this, new FileUploadEventArgs { File = file, FileId = file.FileId, Action = EventAction.Removed });
-                }
-            }
-            else
-            {
-                if(OnUploadFile is not null)
-                {
-                    OnUploadFile(this, new FileUploadEventArgs { File = file, FileId = file.FileId, Action = EventAction.Removed });
-                }
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"Remove file {file.Name} failed", "Removed"));
-                }
+                OnUploadError(this, new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {file.Name} not found", "Remove", ix));
             }
         }
         catch(Exception ex)
         {
-            result = false;
             if(OnUploadError is not null)
             {
-                OnUploadError(this, new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"Exception: {ex.Message}", "Removed", ex));
+                OnUploadError(this, new InputFileException(file, this.MaxAllowedSize, this.MaxAllowedFiles, $"File {file.Name} not found. Exception: {ex.Message}", "Remove", ex));
             }
         }
-
         return result;
     }
 
@@ -338,33 +325,18 @@ public partial class InputFileHandler
     /// <returns></returns>
     public bool Remove(Guid id)
     {
-        bool result;
-        try
+        bool result = false;
+        FileUploadContent file = UploadedFiles.First(i => i.FileId == id);
+        if(file is null)
         {
-            FileUploadContent file = UploadedFiles.First(i => i.FileId == id);
-            if(file is null)
-            {
-                result = false;
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException($"File {id} not found", "Remove"));
-                }
-            }
-            else
-            {
-                result = Remove(file);
-            }
-        }
-        catch(Exception ex)
-        {
-            result = false;
             if(OnUploadError is not null)
             {
-                OnUploadError(this, new InputFileException($"Exception: {ex.Message}", "Remove", ex));
+                OnUploadError(this, new InputFileException($"File not found {id}", "Remove"));
             }
         }
+        else
+            result = Remove(file);
         return result;
-
     }
 
     /// <summary>
@@ -374,33 +346,18 @@ public partial class InputFileHandler
     /// <returns></returns>
     public bool Remove(string fileName)
     {
-        bool result;
-        try
+        bool result = false;
+        FileUploadContent file = UploadedFiles.First(i => i.Name == fileName);
+        if(file is null)
         {
-            FileUploadContent file = UploadedFiles.First(i => i.Name == fileName);
-            if(file is null)
-            {
-                result = false;
-                if(OnUploadError is not null)
-                {
-                    OnUploadError(this, new InputFileException($"File {fileName} not found", "Remove"));
-                }
-            }
-            else
-            {
-                result = Remove(file);
-            }
-        }
-        catch(Exception ex)
-        {
-            result = false;
             if(OnUploadError is not null)
             {
-                OnUploadError(this, new InputFileException($"Exception: {ex.Message}", "Remove", ex));
+                OnUploadError(this, new InputFileException($"File {fileName} not found", "Remove"));
             }
         }
+        else
+            result = Remove(file);
         return result;
-
     }
     #endregion
 

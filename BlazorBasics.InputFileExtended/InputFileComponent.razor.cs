@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components.Web;
-
 namespace BlazorBasics.InputFileExtended;
 
 public partial class InputFileComponent
@@ -19,8 +17,6 @@ public partial class InputFileComponent
     ElementReference InputFileReference;
     string APIErrorMessages;
     string ErrorMessages;
-    byte[] FileBytes = null;
-    string InputCss;
     string SelectionInfo;
     string InputFileTypes;
     bool SuccessLoad = true;
@@ -39,7 +35,7 @@ public partial class InputFileComponent
         Files.OnUploadFile += Files_OnUploadFile;
         Files.OnUploadError += Files_OnUploadError;
         Files.OnAPIError += Files_OnAPIError;
-        SelectionInfo = string.Empty;   
+        SelectionInfo = string.Empty;
         Rows = Files.Count;
         GlobalEvents.ItemDeleted += RemoveFile;
     }
@@ -51,7 +47,7 @@ public partial class InputFileComponent
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
-        {            
+        {
             await LoadFileEventsScript();
             await LoadPasteScript();
             await LoadDragAdnDropScripts();
@@ -60,7 +56,7 @@ public partial class InputFileComponent
 
     async Task OnClick()
     {
-        if (Parameters.OnShouldCancelClick is not null)
+        if(Parameters.OnShouldCancelClick is not null)
         {
             bool cancel = await Parameters.OnShouldCancelClick.Invoke();
             await FileEventScriptsReference.InvokeVoidAsync("PreventDefault", InputFileId, cancel);

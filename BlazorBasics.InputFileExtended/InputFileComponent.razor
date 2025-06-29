@@ -40,7 +40,9 @@
     </label>
 
     if(Parameters.ButtonOptions.ButtonShow)
-    {
+    {   
+        if(!IsSaving)
+        {
         <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
                 @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
             @if(ButtonContent is null)
@@ -52,6 +54,7 @@
                 @ButtonContent
             }
         </button>
+        }
     }
 
     if(Files.Count > 0 && Parameters.ShowFileList)

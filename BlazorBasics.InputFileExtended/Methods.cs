@@ -9,7 +9,6 @@ public partial class InputFileComponent
     public void Clean()
     {
         Files.Clean();
-        FileBytes = null;
         SelectionInfo = string.Empty;
     }
 
@@ -54,8 +53,9 @@ public partial class InputFileComponent
     #endregion
 
     #region private
+    bool IsSaving = false;
     async Task Change(InputFileChangeEventArgs e)
-    {                                
+    {
         CleanErrorMessages();
         await Files.UploadFile(e);
         Rows = Files.Count;
@@ -63,9 +63,12 @@ public partial class InputFileComponent
 
     async Task SendFile()
     {
+        IsSaving = true;
+        await InvokeAsync(StateHasChanged);
         await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
         if(Parameters.ButtonOptions.CleanOnSuccessUpload)
             Clean();
+        IsSaving = false;
         await InvokeAsync(StateHasChanged);
     }
 
@@ -82,14 +85,15 @@ public partial class InputFileComponent
             Console.WriteLine(ex.Message);
             return null;
         }
-    }          
+    }
 
     private void RemoveFile(FileUploadContent file)
     {
         if(Files.Remove(file))
         {
             Rows = Files.Count;
-            if (!Files.UploadedFiles.Any()) SelectionInfo = string.Empty;
+            if(!Files.UploadedFiles.Any())
+                SelectionInfo = string.Empty;
         }
         CleanErrorMessages();
     }
