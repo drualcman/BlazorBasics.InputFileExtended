@@ -42,7 +42,6 @@ public partial class InputFileComponent
         {
             try
             {
-                //await DropScriptsReference.InvokeVoidAsync("Dispose");
                 await DropScriptsReference.DisposeAsync();
             }
             catch { }
@@ -55,8 +54,10 @@ public partial class InputFileComponent
     void DragEnter()
     {
         IsDropping = true;
-        if(Parameters.DragAndDropOptions.CanDropFiles && IsDropping) Dropping = Parameters.DragAndDropOptions.DroppingCss;
-        else Dropping = string.Empty;
+        if(Parameters.DragAndDropOptions.CanDropFiles && IsDropping)
+            Dropping = Parameters.DragAndDropOptions.DroppingCss;
+        else
+            Dropping = string.Empty;
     }
     /// <summary>
     /// Remove the class because we are not in the drag area
