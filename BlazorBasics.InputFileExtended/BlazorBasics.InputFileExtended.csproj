@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.7.33</Version>
+		<Version>3.7.34</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.7.33: Target NET 10. Update dependencies.
 			Version 3.7.33: Update dependencies.
 			Version 3.7.32: Improved how manage exceptions. Update dependencies.
 			Version 3.7.31: Add Net 9 support. Update licence. Update dependencies.
@@ -60,7 +61,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.21" Condition="'$(TargetFramework)' == 'net8.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.10" Condition="'$(TargetFramework)' == 'net9.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12" Condition="'$(TargetFramework)' == 'net9.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2" Condition="'$(TargetFramework)' == 'net10.0'" />
 	</ItemGroup>
 
 </Project>
