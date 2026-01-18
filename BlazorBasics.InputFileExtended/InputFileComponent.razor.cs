@@ -21,7 +21,7 @@ public partial class InputFileComponent
     string InputFileTypes;
     bool SuccessLoad = true;
     string LabelWrapperCss = "input-file";
-    int Rows;
+    int Rows => Files.Count;
     #endregion
 
 
@@ -36,7 +36,6 @@ public partial class InputFileComponent
         Files.OnUploadError += Files_OnUploadError;
         Files.OnAPIError += Files_OnAPIError;
         SelectionInfo = string.Empty;
-        Rows = Files.Count;
         GlobalEvents.ItemDeleted += RemoveFile;
     }
 
@@ -46,7 +45,7 @@ public partial class InputFileComponent
     /// <param name="firstRender"></param>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if(firstRender)
+        if (firstRender)
         {
             await LoadFileEventsScript();
             await LoadPasteScript();
@@ -56,7 +55,7 @@ public partial class InputFileComponent
 
     async Task OnClick()
     {
-        if(Parameters.OnShouldCancelClick is not null)
+        if (Parameters.OnShouldCancelClick is not null)
         {
             bool cancel = await Parameters.OnShouldCancelClick.Invoke();
             await FileEventScriptsReference.InvokeVoidAsync("PreventDefault", InputFileId, cancel);
