@@ -31,17 +31,17 @@ public class FileUploadContent
     /// </summary>
     public Guid FileId { get; private set; } = Guid.NewGuid();
     /// <summary>
-    /// Get the image to show in HTML pages directly
+    /// Image data URL ready to be used as an img src attribute
     /// </summary>
     /// <returns></returns>
-    public string ToImageHTML { get; private set; }
+    public string ImageDataUrl { get; private set; }
     /// <summary>
     /// Get the file bytes
     /// </summary>
     public byte[] FileBytes { get; private set; }
     internal void SetFileBytes(byte[] bytes)
     {
-        ToImageHTML = $"data:image;base64,{Convert.ToBase64String(bytes)}";
+        ImageDataUrl = $"data:image;base64,{Convert.ToBase64String(bytes)}";
         FileBytes = bytes;
     }
 }

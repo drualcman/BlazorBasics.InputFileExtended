@@ -2,7 +2,7 @@
 @if(ChildContent is null)
 {
     <figure @attributes=Attributes>
-        <img src="@File.ToImageHTML" class="@Options.ImagePreviewCss" />
+        <img src="@File.ImageDataUrl" class="@Options.ImagePreviewCss" />
         @if(OnRemove.HasDelegate)
         {
             <span @onclick=Remove>X</span>
