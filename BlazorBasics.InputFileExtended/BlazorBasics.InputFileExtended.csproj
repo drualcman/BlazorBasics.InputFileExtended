@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.8.35</Version>
+		<Version>3.8.36</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.8.36: Add new parameter EnableStreaming to keep the user posibility to upload big files by chunks. User must be implement the Javascript.
 			Version 3.8.35: Change callback object from int to FileUploadContent in SelectContent. Rename ToImageHTML => ImageDataUrl. Fixed issue with internal Rows param.
 			Version 3.7.34: Target NET 10. Update dependencies.
 			Version 3.7.33: Update dependencies.
@@ -61,7 +62,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.21" Condition="'$(TargetFramework)' == 'net8.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23" Condition="'$(TargetFramework)' == 'net8.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12" Condition="'$(TargetFramework)' == 'net9.0'" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.2" Condition="'$(TargetFramework)' == 'net10.0'" />
 	</ItemGroup>

@@ -15,7 +15,7 @@ public partial class InputFileComponent
         {
             FileEventScriptsReference = await GetJSObjectReference("file-events");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FileEventScriptsReference = null;
             Console.WriteLine(ex.Message);
@@ -31,10 +31,10 @@ public partial class InputFileComponent
     {
         try
         {
-            if(FileEventScriptsReference is not null)
+            if (FileEventScriptsReference is not null)
                 await FileEventScriptsReference.DisposeAsync();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
@@ -56,28 +56,25 @@ public partial class InputFileComponent
 
     private async void Files_OnUploadFile(object sender, FileUploadEventArgs e)
     {
-        if(SelectContent is null)
-        {
-            if(Files.Count > 0)
-                SelectionInfo = $"{Files.Count} files";
-            else
-                SelectionInfo = string.Empty;
-        }
+        if (Files.Count > 0)
+            SelectionInfo = $"{Files.Count} {(Files.Count == 1 ? "file" : "files")}";
         else
-        {
+            SelectionInfo = string.Empty;
+
+        if (SelectContent is not null)
             SelectionInfo = $"{Files.Count}";
-        }
+
         await InvokeAsync(StateHasChanged);
-        if(OnAddFile.HasDelegate)
+        if (OnAddFile.HasDelegate)
             await OnAddFile.InvokeAsync(e);
-        if(Parameters.ButtonOptions.AutoUpload &&
+        if (Parameters.ButtonOptions.AutoUpload &&
            Parameters.ButtonOptions.OnSubmit is not null)
             await SendFile();        //send the file after upload
     }
 
     private void Files_OnUploadError(object sender, InputFileException e)
     {
-        if(OnError.HasDelegate)
+        if (OnError.HasDelegate)
             OnError.InvokeAsync(e);
         else
             ErrorMessages =

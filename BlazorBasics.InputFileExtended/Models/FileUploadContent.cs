@@ -41,7 +41,10 @@ public class FileUploadContent
     public byte[] FileBytes { get; private set; }
     internal void SetFileBytes(byte[] bytes)
     {
-        ImageDataUrl = $"data:image;base64,{Convert.ToBase64String(bytes)}";
-        FileBytes = bytes;
+        if (bytes is not null && bytes.Length > 0)
+        {
+            ImageDataUrl = $"data:image;base64,{Convert.ToBase64String(bytes)}";
+            FileBytes = bytes;
+        }
     }
 }

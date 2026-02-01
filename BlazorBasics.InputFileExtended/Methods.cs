@@ -1,4 +1,6 @@
-﻿namespace BlazorBasics.InputFileExtended;
+﻿using System.Text.Json;
+
+namespace BlazorBasics.InputFileExtended;
 
 public partial class InputFileComponent
 {
@@ -57,14 +59,64 @@ public partial class InputFileComponent
     async Task Change(InputFileChangeEventArgs e)
     {
         CleanErrorMessages();
-        await Files.UploadFile(e);
+        if (!Parameters.EnableStreaming)
+            await Files.UploadFile(e);
+        else
+        {
+            var filesJson = await FileEventScriptsReference.InvokeAsync<JsonElement>("GetFileDetails", InputFileId);
+            FileBasicInfo[] files = DeserializeFiles(filesJson);
+            if (files is not null && files.Length > 0)
+            {
+                List<FileUploadContent> uploadedFiles = new();
+                long size = 0;
+                foreach (var file in files)
+                {
+                    var toAdd = new FileUploadContent()
+                    {
+                        Name = file.Name,
+                        LastModified = file.LastModifiedDateTime,
+                        Size = file.Size,
+                        ContentType = file.Type
+                    };
+                    uploadedFiles.Add(toAdd);
+                    size += file.Size;
+                    Files.Add(toAdd);
+                }
+                SelectionInfo = $"{Files.Count}";
+                if (OnChange.HasDelegate)
+                    await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = uploadedFiles, Count = files.Length, Size = size, Action = EventAction.Added });
+            }
+        }
+    }
+
+    private FileBasicInfo[] DeserializeFiles(JsonElement jsonElement)
+    {
+        FileBasicInfo[] result = Array.Empty<FileBasicInfo>();
+
+        if (jsonElement.ValueKind == JsonValueKind.Array)
+        {
+            string json = jsonElement.GetRawText();
+
+            FileBasicInfo[]? deserialized =
+                JsonSerializer.Deserialize<FileBasicInfo[]>(
+                    json,
+                    SERIALIZE_OPTIONS);
+
+            if (deserialized != null)
+            {
+                result = deserialized;
+            }
+        }
+
+        return result;
     }
 
     async Task SendFile()
     {
         IsSaving = true;
         await InvokeAsync(StateHasChanged);
-        await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
+        if (Parameters.ButtonOptions.OnSubmit is not null)
+            await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
         if (Parameters.ButtonOptions.CleanOnSuccessUpload)
             Clean();
         IsSaving = false;

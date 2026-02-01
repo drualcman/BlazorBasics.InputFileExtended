@@ -13,6 +13,7 @@
     >
         <InputFile multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
                    accept="@InputFileTypes"
+                   maxAllowedSize="@Parameters.MaxFileSize"
                    id="@InputFileId"
                    OnChange="Change" />
         @if(string.IsNullOrEmpty(SelectionInfo))
@@ -28,12 +29,12 @@
         }
         else
         {
-            @if(SelectContent is null)
+            if(SelectContent is null)
             {
                 <span class="info">@SelectionInfo</span>
             }
             else
-            {
+            {                   
                 for (int i = 0; i < Rows; i++)
                 {
                     int r = i;

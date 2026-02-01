@@ -1,9 +1,16 @@
-﻿namespace BlazorBasics.InputFileExtended;
+﻿using System.Text.Json;
+
+namespace BlazorBasics.InputFileExtended;
 /// <summary>
 /// Parameters
 /// </summary>
 public partial class InputFileComponent
 {
+    internal JsonSerializerOptions SERIALIZE_OPTIONS = new JsonSerializerOptions()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
     /// <summary>
     /// Configure the input file parameters
     /// </summary>
@@ -13,8 +20,7 @@ public partial class InputFileComponent
     /// <summary>
     /// Aditional HTML attributes
     /// </summary>
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object> Attributes { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object> Attributes { get; set; }
 
     /// <summary>
     /// Text to show for the file selection
