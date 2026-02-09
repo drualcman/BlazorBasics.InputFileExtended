@@ -28,9 +28,9 @@ public partial class InputFileComponent
     [Parameter] public RenderFragment InputContent { get; set; }
 
     /// <summary>
-    /// Text to show for the file selection
+    /// Content per each file selected
     /// </summary>
-    [Parameter] public RenderFragment<FileUploadContent> SelectContent { get; set; }
+    [Parameter] public RenderFragment<IReadOnlyList<FileUploadContent>> SelectContent { get; set; }
 
     /// <summary>
     /// Button text
@@ -90,9 +90,8 @@ public partial class InputFileComponent
             InputFileTypes = "image/*";
 
         if (Parameters.ButtonOptions.ButtonShow &&
-           Parameters.ButtonOptions.OnSubmit is null)
+            Parameters.ButtonOptions.OnSubmit is null)
         {
-            Parameters.ButtonOptions.ButtonShow = false;
             APIErrorMessages = $"If <i>{nameof(Parameters.ButtonOptions.ButtonShow)}</i> is enabled then <i>{nameof(Parameters.ButtonOptions.OnSubmit)}</i> is <strong>required</strong>.";
             InvokeAsync(StateHasChanged);
             throw new ArgumentException($"If {nameof(Parameters.ButtonOptions.ButtonShow)} is true. {nameof(Parameters.ButtonOptions.OnSubmit)} is required.", nameof(Parameters.ButtonOptions.OnSubmit));

@@ -1,24 +1,23 @@
 ﻿@namespace BlazorBasics.InputFileExtended
 
-@if(SuccessLoad)
+@if (SuccessLoad)
 {
     <label @ref=InputFileReference
            @attributes=Attributes
-           class="@LabelWrapperCss @(Parameters.DragAndDropOptions.CanDropFiles ? DropZoneCss : "") @(IsDropping ? Dropping : "")"
+           class="@LabelWrapperCss @(Parameters.DragAndDropOptions.CanDropFiles? DropZoneCss : "") @(IsDropping? Dropping : "")"
            for="@InputFileId"
            @ondragenter="DragEnter"
            @ondrop="DragLeave"
            @ondragleave="DragLeave"
-           @onclick=OnClick
-    >
+           @onclick=OnClick>
         <InputFile multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
                    accept="@InputFileTypes"
                    maxAllowedSize="@Parameters.MaxFileSize"
                    id="@InputFileId"
                    OnChange="Change" />
-        @if(string.IsNullOrEmpty(SelectionInfo))
+        @if (string.IsNullOrEmpty(SelectionInfo))
         {
-            @if(InputContent is null)
+            @if (InputContent is null)
             {
                 <span class="choose">Choose File</span>
             }
@@ -29,54 +28,59 @@
         }
         else
         {
-            if(SelectContent is null)
+            if (SelectContent is null)
             {
                 <span class="info">@SelectionInfo</span>
             }
             else
-            {                   
-                for (int i = 0; i < Rows; i++)
-                {
-                    int r = i;
-                    @SelectContent(Files[r])
-                }
+            {
+                @SelectContent(Files.GetFiles())
             }
         }
     </label>
 
-    if(Parameters.ButtonOptions.ButtonShow)
-    {   
-        if(!IsSaving)
+    if (SelectContent is not null && ChildContent is not null && Files.Count > 0 && Parameters.ShowFileList && Parameters.PreviewOptions.ShowPreview)
+    {
+        for (int i = 0; i < Rows; i++)
         {
-        <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
-                @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
-            @if(ButtonContent is null)
-            {
-                <span>Upload</span>
-            }
-            else
-            {
-                @ButtonContent
-            }
-        </button>
+            int r = i;
+            @ChildContent(Files[r])
         }
     }
 
-    if(Files.Count > 0 && Parameters.ShowFileList)
+    if (Parameters.ButtonOptions.ButtonShow)
+    {
+        if (!IsSaving)
+        {
+            <button class="@Parameters.ButtonOptions.ButtonCss" type="@Parameters.ButtonOptions.ButtonType.ToString().ToLower()"
+                    @onclick="FormSave" title="@Parameters.ButtonOptions.ButtonTitle">
+                @if (ButtonContent is null)
+                {
+                    <span>Upload</span>
+                }
+                else
+                {
+                    @ButtonContent
+                }
+            </button>
+        }
+    }
+
+    if (Files.Count > 0 && Parameters.ShowFileList)
     {
         <div class="@Parameters.PreviewOptions.PreviewWrapperCss">
-            @for(int i = 0; i < Rows; i++)
+            @for (int i = 0; i < Rows; i++)
             {
                 int r = i;
-                if(ChildContent is null)
+                if (ChildContent is null)
                 {
-                    if(Parameters.PreviewOptions.ShowPreview)
+                    if (Parameters.PreviewOptions.ShowPreview)
                     {
-                        <FilePreviewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="()=> Remove(Files[r])" />
+                        <FilePreviewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="() => Remove(Files[r])" />
                     }
                     else
                     {
-                        <FileViewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="()=> Remove(Files[r])" />
+                        <FileViewComponent File="Files[r]" Context="FileContext" Options=Parameters.PreviewOptions OnRemove="() => Remove(Files[r])" />
                     }
                 }
                 else
@@ -84,15 +88,14 @@
                     @ChildContent(Files[r])
                 }
             }
-
         </div>
     }
 }
-@if(!OnError.HasDelegate)
+@if (!OnError.HasDelegate)
 {
     <label class="error-label">@(new MarkupString(ErrorMessages))</label>
 }
-@if(!string.IsNullOrEmpty(APIErrorMessages))
+@if (!string.IsNullOrEmpty(APIErrorMessages))
 {
     <label class="error-label">@(new MarkupString(APIErrorMessages))</label>
 }
