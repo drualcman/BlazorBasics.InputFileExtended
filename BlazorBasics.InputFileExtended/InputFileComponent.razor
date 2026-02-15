@@ -64,6 +64,17 @@
                 }
             </button>
         }
+        else
+        {
+            if (ButtonContent is null)
+            {
+                <span class="loading"></span>
+            }
+            else
+            {
+                @ButtonContent
+            }            
+        }
     }
 
     if (Files.Count > 0 && Parameters.ShowFileList)
