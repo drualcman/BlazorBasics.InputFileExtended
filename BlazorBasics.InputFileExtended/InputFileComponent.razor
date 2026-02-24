@@ -102,7 +102,7 @@
         </div>
     }
 }
-@if (!OnError.HasDelegate)
+@if (!OnError.HasDelegate && !string.IsNullOrWhiteSpace(ErrorMessages))
 {
     <label class="error-label">@(new MarkupString(ErrorMessages))</label>
 }

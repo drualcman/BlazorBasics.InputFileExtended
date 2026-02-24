@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.8.39: Control error label only show when have error and don't have delegate.
 			Version 3.8.38: Add loading content when show button. Default is a normal loading or content from user button controlling the content.
 			Version 3.8.37: Improved SelectContent to show the content one time and also receive of FileUploadContent if user want to do some. If Preview is not selected and has ChildContent then render ChildContent per each file.
 			Version 3.8.36: Add new parameter EnableStreaming to keep the user posibility to upload big files by chunks. User must be implement the Javascript.
