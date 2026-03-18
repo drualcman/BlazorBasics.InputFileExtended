@@ -1,6 +1,5 @@
 ﻿namespace BlazorBasics.InputFileExtended.Models;
 
-
 /// <summary>
 /// Manage the file upload
 /// </summary>
@@ -33,18 +32,49 @@ public class FileUploadContent
     /// <summary>
     /// Image data URL ready to be used as an img src attribute
     /// </summary>
-    /// <returns></returns>
     public string ImageDataUrl { get; private set; }
     /// <summary>
     /// Get the file bytes
     /// </summary>
     public byte[] FileBytes { get; private set; }
+
     internal void SetFileBytes(byte[] bytes)
     {
         if (bytes is not null && bytes.Length > 0)
         {
-            ImageDataUrl = $"data:image;base64,{Convert.ToBase64String(bytes)}";
+            string mimeType = !string.IsNullOrEmpty(ContentType) && ContentType.StartsWith("image/")
+                ? ContentType
+                : GetMimeTypeFromBytes(bytes); // Fallback por si ContentType no es confiable
+
+            ImageDataUrl = $"data:{mimeType};base64,{Convert.ToBase64String(bytes)}";
             FileBytes = bytes;
         }
+    }
+
+    private string GetMimeTypeFromBytes(byte[] bytes)
+    {
+        if (bytes.Length > 4)
+        {
+            // JPEG: FF D8
+            if (bytes[0] == 0xFF && bytes[1] == 0xD8)
+                return "image/jpeg";
+
+            // PNG: 89 50 4E 47
+            if (bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47)
+                return "image/png";
+
+            // GIF: GIF87a o GIF89a
+            if (bytes[0] == 0x47 && bytes[1] == 0x49 && bytes[2] == 0x46)
+                return "image/gif";
+
+            // BMP: BM
+            if (bytes[0] == 0x42 && bytes[1] == 0x4D)
+                return "image/bmp";
+
+            // WEBP: RIFF ???? WEBP
+            if (bytes[0] == 0x52 && bytes[1] == 0x49 && bytes[2] == 0x46 && bytes[3] == 0x46)
+                return "image/webp";
+        }
+        return "image/jpeg";
     }
 }

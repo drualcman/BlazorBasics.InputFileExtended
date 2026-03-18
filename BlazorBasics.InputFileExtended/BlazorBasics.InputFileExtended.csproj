@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.8.39</Version>
+		<Version>3.8.40</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.8.40: Fixed issue in FileUploadContent.ImageDataUrl with mime type. Improved how to return exceptions.
 			Version 3.8.39: Control error label only show when have error and don't have delegate.
 			Version 3.8.38: Add loading content when show button. Default is a normal loading or content from user button controlling the content.
 			Version 3.8.37: Improved SelectContent to show the content one time and also receive of FileUploadContent if user want to do some. If Preview is not selected and has ChildContent then render ChildContent per each file.
@@ -66,8 +67,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23" Condition="'$(TargetFramework)' == 'net8.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.12" Condition="'$(TargetFramework)' == 'net9.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" Condition="'$(TargetFramework)' == 'net10.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.13" Condition="'$(TargetFramework)' == 'net9.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.5" Condition="'$(TargetFramework)' == 'net10.0'" />
 	</ItemGroup>
 
 </Project>

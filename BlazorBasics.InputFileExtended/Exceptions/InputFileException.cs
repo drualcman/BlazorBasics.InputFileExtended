@@ -88,7 +88,7 @@
             MaxFileBytes = maxFileBytes;
             FileBytes = 0;
             List<FileUploadContent> files = new List<FileUploadContent>();
-            foreach(IBrowserFile file in inputFiles.GetMultipleFiles())
+            foreach (IBrowserFile file in inputFiles.GetMultipleFiles())
             {
                 FileBytes += file.Size;
                 files.Add(new FileUploadContent
@@ -101,10 +101,14 @@
                 });
             }
             Files = files;
-            if(FilesCount > MaxFileBytes && FileBytes > MaxFileBytes) ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
-            else if(FilesCount > MaxFileBytes) ExceptionType = ExceptionType.MaxCount;
-            else if(FileBytes > MaxFileBytes) ExceptionType = ExceptionType.MaxSize;
-            else ExceptionType = ExceptionType.Generic;
+            if (FilesCount >= MaxFileBytes && FileBytes >= MaxFileBytes)
+                ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
+            else if (FilesCount >= MaxFileBytes)
+                ExceptionType = ExceptionType.MaxCount;
+            else if (FileBytes >= MaxFileBytes)
+                ExceptionType = ExceptionType.MaxSize;
+            else
+                ExceptionType = ExceptionType.Generic;
         }
 
         /// <summary>
@@ -135,10 +139,14 @@
             MaxFileBytes = maxFileBytes;
             FileBytes = inputFile.Size;
             Files = new List<FileUploadContent> { inputFile };
-            if(FilesCount > MaxFileBytes && FileBytes > MaxFileBytes) ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
-            else if(FilesCount > MaxFileBytes) ExceptionType = ExceptionType.MaxCount;
-            else if(FileBytes > MaxFileBytes) ExceptionType = ExceptionType.MaxSize;
-            else ExceptionType = ExceptionType.Generic;
+            if (FilesCount > MaxFileBytes && FileBytes > MaxFileBytes)
+                ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
+            else if (FilesCount > MaxFileBytes)
+                ExceptionType = ExceptionType.MaxCount;
+            else if (FileBytes > MaxFileBytes)
+                ExceptionType = ExceptionType.MaxSize;
+            else
+                ExceptionType = ExceptionType.Generic;
         }
         #endregion
 
