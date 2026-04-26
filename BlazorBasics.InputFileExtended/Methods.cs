@@ -26,14 +26,14 @@ public partial class InputFileComponent
         }
         if (Model is null)
         {
-            await SendFile();
+            await SendFiles();
         }
         else
         {
             isValid = Model.Validate();
             if (isValid)
             {
-                await SendFile();
+                await SendFiles();
             }
             else
             {
@@ -111,7 +111,17 @@ public partial class InputFileComponent
         return result;
     }
 
-    async Task SendFile()
+    async Task SendFile(FileUploadEventArgs file)
+    {
+        IsSaving = true;
+        await InvokeAsync(StateHasChanged);
+        if (Parameters.ButtonOptions.OnSubmit is not null)
+            await Parameters.ButtonOptions.OnSubmit.Invoke([file.File]);
+        IsSaving = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    async Task SendFiles()
     {
         IsSaving = true;
         await InvokeAsync(StateHasChanged);

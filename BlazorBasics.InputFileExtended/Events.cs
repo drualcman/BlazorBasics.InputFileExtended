@@ -65,11 +65,12 @@ public partial class InputFileComponent
             SelectionInfo = $"{Files.Count}";
 
         await InvokeAsync(StateHasChanged);
+
         if (OnAddFile.HasDelegate)
             await OnAddFile.InvokeAsync(e);
         if (Parameters.ButtonOptions.AutoUpload &&
-           Parameters.ButtonOptions.OnSubmit is not null)
-            await SendFile();        //send the file after upload
+            Parameters.ButtonOptions.OnSubmit is not null)
+            await SendFile(e);
     }
 
     private void Files_OnUploadError(object sender, InputFileException e)

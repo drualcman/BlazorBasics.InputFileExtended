@@ -63,11 +63,6 @@ public partial class InputFileHandler
                         toAdd.SetFileBytes(filebytes);
                         Add(toAdd);
                     }
-
-                    if (OnUploaded is not null)
-                    {
-                        OnUploaded(this, new FilesUploadEventArgs { Files = UploadedFiles, Count = this.Count, Size = size, Action = EventAction.Added });
-                    }
                 }
             }
         }
@@ -371,9 +366,5 @@ public partial class InputFileHandler
         UploadedFiles.Clear();
         UploadedImage = null;
         FileName = string.Empty;
-        if (OnUploaded is not null)
-        {
-            OnUploaded(this, new FilesUploadEventArgs { Files = null, Count = c, Size = t, Action = EventAction.Clean });
-        }
     }
 }

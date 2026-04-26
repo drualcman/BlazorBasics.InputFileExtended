@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.8.40</Version>
+		<Version>3.8.41</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,6 +19,7 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.8.41: Improve management autoupload files to handle one by one as event callback. Update dependencies.
 			Version 3.8.40: Fixed issue in FileUploadContent.ImageDataUrl with mime type. Improved how to return exceptions.
 			Version 3.8.39: Control error label only show when have error and don't have delegate.
 			Version 3.8.38: Add loading content when show button. Default is a normal loading or content from user button controlling the content.
@@ -66,9 +67,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.23" Condition="'$(TargetFramework)' == 'net8.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.13" Condition="'$(TargetFramework)' == 'net9.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.5" Condition="'$(TargetFramework)' == 'net10.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.26" Condition="'$(TargetFramework)' == 'net8.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.15" Condition="'$(TargetFramework)' == 'net9.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.7" Condition="'$(TargetFramework)' == 'net10.0'" />
 	</ItemGroup>
 
 </Project>
+
