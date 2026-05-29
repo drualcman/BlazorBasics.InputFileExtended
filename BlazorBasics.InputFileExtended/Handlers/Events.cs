@@ -8,27 +8,27 @@ public partial class InputFileHandler
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <returns></returns>
-    public delegate void UploadEventHandler(object sender, FileUploadEventArgs e);
+    public delegate Task UploadEventHandler(object sender, FileUploadEventArgs e);
     /// <summary>
     /// Delegate to manage OnUploaded
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <returns></returns>
-    public delegate void UploadsEventHandler(object sender, FilesUploadEventArgs e);
+    public delegate Task UploadsEventHandler(object sender, FilesUploadEventArgs e);
     /// <summary>
     /// Delegate to manage OnUploadError
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <returns></returns>
-    public delegate void UploadErrorEventHandler(object sender, InputFileException e);
+    public delegate Task UploadErrorEventHandler(object sender, InputFileException e);
     /// <summary>
     /// Delegate to manage OnAPIError
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    public delegate void APIErrorEventHandler(object sender, InputFileException e);
+    public delegate Task APIErrorEventHandler(object sender, InputFileException e);
 
     /// <summary>
     /// Event to notify each file uploaded
@@ -58,7 +58,7 @@ public partial class InputFileHandler
     /// <param name="e"></param>
     protected virtual void OnUploadFileEvent(object sender, FileUploadEventArgs e)
     {
-        if(OnUploadFile is not null)
+        if (OnUploadFile is not null)
         {
             OnUploadFile(sender, e);
         }
@@ -71,7 +71,7 @@ public partial class InputFileHandler
     /// <param name="e"></param>
     protected virtual void OnUploadedEvent(object sender, FilesUploadEventArgs e)
     {
-        if(OnUploaded is not null)
+        if (OnUploaded is not null)
         {
             OnUploaded(sender, e);
         }
@@ -84,7 +84,7 @@ public partial class InputFileHandler
     /// <param name="e"></param>
     protected virtual void OnUploadErrorEvent(object sender, InputFileException e)
     {
-        if(OnUploadError is not null)
+        if (OnUploadError is not null)
         {
             OnUploadError(sender, e);
         }
@@ -97,7 +97,7 @@ public partial class InputFileHandler
     /// <param name="e"></param>
     protected virtual void OnAPIErrorEvent(object sender, InputFileException e)
     {
-        if(OnAPIError is not null)
+        if (OnAPIError is not null)
         {
             OnAPIError(sender, e);
         }

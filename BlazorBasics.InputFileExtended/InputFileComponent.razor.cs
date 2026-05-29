@@ -7,10 +7,11 @@ public partial class InputFileComponent
     /// </summary>
     public InputFileHandler Files { get; private set; }
 
+    Guid InputResetKey = Guid.NewGuid();
     /// <summary>
     /// Know the Id assigned to the input file to use from some external CSS or JAVASCRIPT when has reference name
     /// </summary>
-    public readonly string InputFileId = Guid.NewGuid().ToString();
+    public string InputFileId => InputResetKey.ToString();
 
 
     #region variables 

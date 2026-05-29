@@ -97,7 +97,6 @@
                     LastModified = file.LastModified,
                     Size = file.Size,
                     ContentType = file.ContentType,
-                    FileStreamContent = new StreamContent(file.OpenReadStream(file.Size))
                 });
             }
             Files = files;

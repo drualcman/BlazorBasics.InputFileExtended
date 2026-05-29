@@ -6,7 +6,7 @@ public partial class InputFileHandler
     /// <summary>
     /// Last File stream uploaded
     /// </summary>
-    public StreamContent UploadedImage;
+    public byte[] UploadedImage;
     /// <summary>
     /// Last File name uploaded
     /// </summary>

@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace BlazorBasics.InputFileExtended;
+﻿namespace BlazorBasics.InputFileExtended;
 
 public partial class InputFileComponent
 {
@@ -44,7 +42,9 @@ public partial class InputFileComponent
                     errors.Append(", ");
                 }
                 errors.Remove(errors.Length - 2, 2);
-                await OnError.InvokeAsync(new InputFileException(errors.ToString(), "Save"));
+                await OnError.InvokeAsync(new InputFileException(errors.ToString(), nameof(FormSave)));
+                InputResetKey = Guid.NewGuid();
+                await InvokeAsync(StateHasChanged);
             }
         }
         if (Parameters.ButtonOptions.OnAfterSubmit is not null)
@@ -59,33 +59,41 @@ public partial class InputFileComponent
     async Task Change(InputFileChangeEventArgs e)
     {
         CleanErrorMessages();
-        if (!Parameters.EnableStreaming)
-            await Files.UploadFile(e);
+        if (OnError.HasDelegate && e.FileCount > Parameters.MaxUploatedFiles)
+        {
+            await OnError.InvokeAsync(new InputFileException(e, Parameters.MaxUploatedFiles, Parameters.MaxUploatedFiles, "Max selected file count exception.", nameof(e)));
+            InputResetKey = Guid.NewGuid();
+        }
         else
         {
-            var filesJson = await FileEventScriptsReference.InvokeAsync<JsonElement>("GetFileDetails", InputFileId);
-            FileBasicInfo[] files = DeserializeFiles(filesJson);
-            if (files is not null && files.Length > 0)
+            if (Parameters.EnableStreaming)
             {
-                List<FileUploadContent> uploadedFiles = new();
-                long size = 0;
-                foreach (var file in files)
+                var filesJson = await FileEventScriptsReference.InvokeAsync<JsonElement>("GetFileDetails", InputFileId);
+                FileBasicInfo[] files = DeserializeFiles(filesJson);
+                if (files is not null && files.Length > 0)
                 {
-                    var toAdd = new FileUploadContent()
+                    List<FileUploadContent> uploadedFiles = new();
+                    long size = 0;
+                    foreach (var file in files)
                     {
-                        Name = file.Name,
-                        LastModified = file.LastModifiedDateTime,
-                        Size = file.Size,
-                        ContentType = file.Type
-                    };
-                    uploadedFiles.Add(toAdd);
-                    size += file.Size;
-                    Files.Add(toAdd);
+                        var toAdd = new FileUploadContent()
+                        {
+                            Name = file.Name,
+                            LastModified = file.LastModifiedDateTime,
+                            Size = file.Size,
+                            ContentType = file.Type
+                        };
+                        uploadedFiles.Add(toAdd);
+                        size += file.Size;
+                        Files.Add(toAdd);
+                    }
+                    SelectionInfo = $"Files: {Files.Count}, Total size: {size}";
+                    if (OnChange.HasDelegate)
+                        await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = uploadedFiles, Count = files.Length, Size = size, Action = EventAction.Added });
                 }
-                SelectionInfo = $"{Files.Count}";
-                if (OnChange.HasDelegate)
-                    await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = uploadedFiles, Count = files.Length, Size = size, Action = EventAction.Added });
             }
+            else
+                await Files.UploadFile(e);
         }
     }
 
@@ -114,7 +122,7 @@ public partial class InputFileComponent
     async Task SendFile(FileUploadEventArgs file)
     {
         IsSaving = true;
-        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1);
         if (Parameters.ButtonOptions.OnSubmit is not null)
             await Parameters.ButtonOptions.OnSubmit.Invoke([file.File]);
         IsSaving = false;
@@ -124,7 +132,7 @@ public partial class InputFileComponent
     async Task SendFiles()
     {
         IsSaving = true;
-        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1);
         if (Parameters.ButtonOptions.OnSubmit is not null)
             await Parameters.ButtonOptions.OnSubmit.Invoke(Files.GetFiles());
         if (Parameters.ButtonOptions.CleanOnSuccessUpload)

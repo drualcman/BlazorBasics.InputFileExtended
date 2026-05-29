@@ -3,7 +3,7 @@
 /// <summary>
 /// Manage the file upload
 /// </summary>
-public class FileUploadContent
+public class FileUploadContent : IDisposable
 {
     /// <summary>
     /// The name of the file as specified by the browser.
@@ -21,10 +21,6 @@ public class FileUploadContent
     /// The MIME type of the file as specified by the browser.
     /// </summary>
     public string ContentType { get; set; }
-    /// <summary>
-    /// File bites
-    /// </summary>
-    public StreamContent FileStreamContent { get; set; }
     /// <summary>
     /// Set a identifier for the file in the object
     /// </summary>
@@ -76,5 +72,15 @@ public class FileUploadContent
                 return "image/webp";
         }
         return "image/jpeg";
+    }
+
+    /// <summary>
+    /// Clears the stored file byte array to release memory and remove the reference to its contents.
+    /// </summary>
+    /// <remarks>Only clears the FileBytes field; does not release unmanaged resources or suppress
+    /// finalization. Safe to call multiple times.</remarks>
+    public void Dispose()
+    {
+        FileBytes = [];
     }
 }

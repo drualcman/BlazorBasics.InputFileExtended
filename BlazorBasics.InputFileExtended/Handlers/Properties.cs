@@ -24,15 +24,15 @@ public partial class InputFileHandler
         get
         {
             int c = UploadedFiles.Count;
-            if(c > 0)
+            if (c > 0)
             {
                 return UploadedFiles[0];
             }
             else
             {
-                if(OnUploadError is not null)
+                if (OnUploadError is not null)
                 {
-                    OnUploadError(this, new InputFileException("No images found", "First"));
+                    OnUploadError(this, new InputFileException("No images found", nameof(First)));
                 }
                 return null;
             }
@@ -47,15 +47,15 @@ public partial class InputFileHandler
         get
         {
             int c = UploadedFiles.Count;
-            if(c > 0)
+            if (c > 0)
             {
                 return UploadedFiles[c - 1];
             }
             else
             {
-                if(OnUploadError is not null)
+                if (OnUploadError is not null)
                 {
-                    OnUploadError(this, new InputFileException("No images found", "Last"));
+                    OnUploadError(this, new InputFileException("No images found", nameof(Last)));
                 }
                 return null;
             }

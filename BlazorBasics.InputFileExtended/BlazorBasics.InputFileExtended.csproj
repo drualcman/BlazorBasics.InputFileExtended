@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.8.41</Version>
+		<Version>3.9.42</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,13 +19,14 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
+			Version 3.9.42: Change void to events handler events from void to Task. REmoved StreamContent and replaced with byte[] in FileUploadContent object and UploadedImage property. Fixed send correct files collection to callback. Refactor how to throw exceptions. Update dependencies.
 			Version 3.8.41: Improve management autoupload files to handle one by one as event callback. Update dependencies.
 			Version 3.8.40: Fixed issue in FileUploadContent.ImageDataUrl with mime type. Improved how to return exceptions.
 			Version 3.8.39: Control error label only show when have error and don't have delegate.
 			Version 3.8.38: Add loading content when show button. Default is a normal loading or content from user button controlling the content.
 			Version 3.8.37: Improved SelectContent to show the content one time and also receive of FileUploadContent if user want to do some. If Preview is not selected and has ChildContent then render ChildContent per each file.
 			Version 3.8.36: Add new parameter EnableStreaming to keep the user posibility to upload big files by chunks. User must be implement the Javascript.
-			Version 3.8.35: Change callback object from int to FileUploadContent in SelectContent. Rename ToImageHTML => ImageDataUrl. Fixed issue with internal Rows param.
+			Version 3.8.35: Change callback object from int to FileUploadContent in SelectContent. Rename ToImageHTML =&gt; ImageDataUrl. Fixed issue with internal Rows param.
 			Version 3.7.34: Target NET 10. Update dependencies.
 			Version 3.7.33: Update dependencies.
 			Version 3.7.32: Improved how manage exceptions. Update dependencies.
@@ -67,9 +68,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.26" Condition="'$(TargetFramework)' == 'net8.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.15" Condition="'$(TargetFramework)' == 'net9.0'" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.7" Condition="'$(TargetFramework)' == 'net10.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.27" Condition="'$(TargetFramework)' == 'net8.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.16" Condition="'$(TargetFramework)' == 'net9.0'" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.8" Condition="'$(TargetFramework)' == 'net10.0'" />
 	</ItemGroup>
 
 </Project>

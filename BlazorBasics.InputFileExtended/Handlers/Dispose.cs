@@ -10,15 +10,15 @@ public partial class InputFileHandler : IDisposable
     /// <param name="disposing"></param>
     protected virtual void Dispose(bool disposing)
     {
-        if(!disposedValue)
+        if (!disposedValue)
         {
-            if(disposing)
+            if (disposing)
             {
-                UploadedImage?.Dispose();
+                UploadedImage = [];
                 int c = UploadedFiles.Count;
-                for(int i = 0; i < c; i++)
+                for (int i = 0; i < c; i++)
                 {
-                    UploadedFiles[i]?.FileStreamContent?.Dispose();
+                    UploadedFiles[i]?.Dispose();
                 }
             }
 

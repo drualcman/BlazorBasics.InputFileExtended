@@ -10,7 +10,8 @@
            @ondrop="DragLeave"
            @ondragleave="DragLeave"
            @onclick=OnClick>
-        <InputFile multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
+        <InputFile @key="InputResetKey"
+                   multiple="@Parameters.MultiFile" class="@Parameters.InputFileCss"
                    accept="@InputFileTypes"
                    maxAllowedSize="@Parameters.MaxFileSize"
                    id="@InputFileId"

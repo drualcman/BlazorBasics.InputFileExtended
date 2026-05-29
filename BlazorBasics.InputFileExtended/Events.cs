@@ -51,18 +51,15 @@ public partial class InputFileComponent
         await FileEventScriptsReference.InvokeVoidAsync("OpenDialog", InputFileId);
     }
 
-    private void Files_OnUploaded(object sender, FilesUploadEventArgs e) =>
-        OnChange.InvokeAsync(e);
+    private async Task Files_OnUploaded(object sender, FilesUploadEventArgs e) =>
+        await OnChange.InvokeAsync(e);
 
-    private async void Files_OnUploadFile(object sender, FileUploadEventArgs e)
+    private async Task Files_OnUploadFile(object sender, FileUploadEventArgs e)
     {
         if (Files.Count > 0)
             SelectionInfo = $"{Files.Count} {(Files.Count == 1 ? "file" : "files")}";
         else
             SelectionInfo = string.Empty;
-
-        if (SelectContent is not null)
-            SelectionInfo = $"{Files.Count}";
 
         await InvokeAsync(StateHasChanged);
 
@@ -73,20 +70,22 @@ public partial class InputFileComponent
             await SendFile(e);
     }
 
-    private void Files_OnUploadError(object sender, InputFileException e)
+    private async Task Files_OnUploadError(object sender, InputFileException e)
     {
         if (OnError.HasDelegate)
-            OnError.InvokeAsync(e);
+            await OnError.InvokeAsync(e);
         else
             ErrorMessages =
                 $"{e.Message}" +
                 $"{(e.ExceptionType == ExceptionType.MaxSize ? $" File size {e.FileMbBytes.ToString("N2")}Mb ({e.FileBytes} bytes) overflow maximum size is {e.MaxFileMbBytes.ToString("N2")}Mb ({e.MaxFileBytes} bytes). " : "")}" +
                 $"{(e.ExceptionType == ExceptionType.MaxCount ? $" Max files selected {e.MaxFilesAllowed}. " : "")}";
+        InputResetKey = Guid.NewGuid();
+        await InvokeAsync(StateHasChanged);
     }
 
-    private void Files_OnAPIError(object sender, InputFileException e)
+    private async Task Files_OnAPIError(object sender, InputFileException e)
     {
         APIErrorMessages = e.Message;
-        InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged);
     }
 }
