@@ -100,9 +100,9 @@
                 });
             }
             Files = files;
-            if (FilesCount >= MaxFileBytes && FileBytes >= MaxFileBytes)
+            if (FilesCount > MaxFilesAllowed && FileBytes >= MaxFileBytes)
                 ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
-            else if (FilesCount >= MaxFileBytes)
+            else if (FilesCount > MaxFilesAllowed)
                 ExceptionType = ExceptionType.MaxCount;
             else if (FileBytes >= MaxFileBytes)
                 ExceptionType = ExceptionType.MaxSize;
@@ -138,9 +138,9 @@
             MaxFileBytes = maxFileBytes;
             FileBytes = inputFile.Size;
             Files = new List<FileUploadContent> { inputFile };
-            if (FilesCount > MaxFileBytes && FileBytes > MaxFileBytes)
+            if (FilesCount > MaxFilesAllowed && FileBytes > MaxFileBytes)
                 ExceptionType = ExceptionType.MaxCount | ExceptionType.MaxSize;
-            else if (FilesCount > MaxFileBytes)
+            else if (FilesCount > MaxFilesAllowed)
                 ExceptionType = ExceptionType.MaxCount;
             else if (FileBytes > MaxFileBytes)
                 ExceptionType = ExceptionType.MaxSize;
