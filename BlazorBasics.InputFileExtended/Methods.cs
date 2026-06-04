@@ -87,13 +87,14 @@ public partial class InputFileComponent
                         size += file.Size;
                         Files.Add(toAdd);
                     }
-                    SelectionInfo = $"Files: {Files.Count}, Total size: {size}";
-                    if (OnChange.HasDelegate)
-                        await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = uploadedFiles, Count = files.Length, Size = size, Action = EventAction.Added });
                 }
             }
             else
                 await Files.UploadFile(e);
+
+            SelectionInfo = $"Files: {Files.Count}, Total size: {Files.Size}";
+            if (OnChange.HasDelegate)
+                await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = [.. Files.GetFiles()], Count = Files.Count, Size = Files.Size, Action = EventAction.Added });
         }
     }
 

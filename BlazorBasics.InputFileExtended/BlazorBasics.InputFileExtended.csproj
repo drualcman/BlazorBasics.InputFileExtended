@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.9.42</Version>
+		<Version>3.9.44</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,7 +19,9 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
-			Version 3.9.42: Change void to events handler events from void to Task. REmoved StreamContent and replaced with byte[] in FileUploadContent object and UploadedImage property. Fixed send correct files collection to callback. Refactor how to throw exceptions. Update dependencies.
+			Version 3.9.44: Fixed MaxFilesAllowed exception notification.
+			Version 3.9.43: Fixed notification on change.
+			Version 3.9.42: Change void to events handler events from void to Task. Removed StreamContent and replaced with byte[] in FileUploadContent object and UploadedImage property. Fixed send correct files collection to callback. Refactor how to throw exceptions. Update dependencies.
 			Version 3.8.41: Improve management autoupload files to handle one by one as event callback. Update dependencies.
 			Version 3.8.40: Fixed issue in FileUploadContent.ImageDataUrl with mime type. Improved how to return exceptions.
 			Version 3.8.39: Control error label only show when have error and don't have delegate.

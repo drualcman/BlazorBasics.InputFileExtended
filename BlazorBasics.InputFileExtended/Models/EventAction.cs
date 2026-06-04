@@ -5,6 +5,10 @@
 public enum EventAction
 {
     /// <summary>
+    /// File/s selected
+    /// </summary>
+    Change,
+    /// <summary>
     /// File Added to the object container
     /// </summary>
     Added,
