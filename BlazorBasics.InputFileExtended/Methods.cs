@@ -61,13 +61,15 @@ public partial class InputFileComponent
         CleanErrorMessages();
         if (OnError.HasDelegate && e.FileCount > Parameters.MaxUploatedFiles)
         {
-            await OnError.InvokeAsync(new InputFileException(e, Parameters.MaxUploatedFiles, Parameters.MaxUploatedFiles, "Max selected file count exception.", nameof(e)));
+            await OnError.InvokeAsync(new InputFileException(e, Parameters.MaxFileSize, Parameters.MaxUploatedFiles, "Max selected file count exception.", nameof(e)));
             InputResetKey = Guid.NewGuid();
         }
         else
         {
             if (Parameters.EnableStreaming)
             {
+                // Each change event replaces the selection entirely, so reset accumulated state.
+                Files.Clean();
                 var filesJson = await FileEventScriptsReference.InvokeAsync<JsonElement>("GetFileDetails", InputFileId);
                 FileBasicInfo[] files = DeserializeFiles(filesJson);
                 if (files is not null && files.Length > 0)
