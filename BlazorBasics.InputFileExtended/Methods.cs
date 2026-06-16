@@ -66,6 +66,12 @@ public partial class InputFileComponent
         }
         else
         {
+            // Notify consumers as soon as the selection metadata is available (name/size/type),
+            // before reading any bytes. Skip when the JS notifier already fired OnSelected for
+            // this change — it runs earlier, straight from the DOM event.
+            if (!SelectionNotifierRegistered)
+                await NotifySelectedAsync(e);
+
             if (Parameters.EnableStreaming)
             {
                 // Each change event replaces the selection entirely, so reset accumulated state.
@@ -97,6 +103,44 @@ public partial class InputFileComponent
             SelectionInfo = $"Files: {Files.Count}, Total size: {Files.Size}";
             if (OnChange.HasDelegate)
                 await OnChange.InvokeAsync(new FilesUploadEventArgs { Files = [.. Files.GetFiles()], Count = Files.Count, Size = Files.Size, Action = EventAction.Added });
+        }
+    }
+
+    async Task NotifySelectedAsync(InputFileChangeEventArgs e)
+    {
+        if (!OnSelected.HasDelegate)
+            return;
+
+        try
+        {
+            // IBrowserFile metadata (name/size/type/last-modified) is available without
+            // reading the stream, so this stays instant even for large videos.
+            IReadOnlyList<IBrowserFile> files = e.GetMultipleFiles(maximumFileCount: Parameters.MaxUploatedFiles);
+            List<FileUploadContent> metadata = new(files.Count);
+            long totalSize = 0;
+            foreach (IBrowserFile file in files)
+            {
+                metadata.Add(new FileUploadContent
+                {
+                    Name = file.Name,
+                    LastModified = file.LastModified,
+                    Size = file.Size,
+                    ContentType = file.ContentType
+                });
+                totalSize += file.Size;
+            }
+
+            await OnSelected.InvokeAsync(new FilesUploadEventArgs
+            {
+                Files = metadata,
+                Count = metadata.Count,
+                Size = totalSize,
+                Action = EventAction.Change
+            });
+        }
+        catch
+        {
+            // Metadata-only pre-notification is best-effort; never block the real upload.
         }
     }
 

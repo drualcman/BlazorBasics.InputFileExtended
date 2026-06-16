@@ -3,7 +3,7 @@
 /// <summary>
 /// Modelo para información básica del archivo (solo metadatos)
 /// </summary>
-internal class FileBasicInfo
+public class FileBasicInfo
 {
     /// <summary>
     /// The name of the file as specified by the browser.

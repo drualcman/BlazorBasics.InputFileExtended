@@ -53,6 +53,15 @@ public partial class InputFileComponent
 
     #region events
     /// <summary>
+    /// Raised the instant a file selection is known (file name, size and content type),
+    /// BEFORE any byte is read from disk. Use it to give immediate UI feedback (e.g. a
+    /// "processing" indicator) for heavy files such as videos, whose read can take seconds.
+    /// The <see cref="FileUploadContent"/> items carry metadata only — <c>FileBytes</c> is
+    /// not populated yet. <see cref="EventAction.Change"/> is reported as the action.
+    /// </summary>
+    [Parameter] public EventCallback<FilesUploadEventArgs> OnSelected { get; set; }
+
+    /// <summary>
     /// When each file is uploaded
     /// </summary>
     [Parameter] public EventCallback<FileUploadEventArgs> OnAddFile { get; set; }

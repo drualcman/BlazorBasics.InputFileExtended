@@ -14,7 +14,7 @@ public partial class InputFileComponent
     public string InputFileId => InputResetKey.ToString();
 
 
-    #region variables 
+    #region variables
     ElementReference InputFileReference;
     string APIErrorMessages;
     string ErrorMessages;
@@ -23,6 +23,8 @@ public partial class InputFileComponent
     bool SuccessLoad = true;
     string LabelWrapperCss = "input-file";
     int Rows => Files.Count;
+    DotNetObjectReference<InputFileComponent> SelfReference;
+    bool SelectionNotifierRegistered;
     #endregion
 
 
@@ -51,7 +53,63 @@ public partial class InputFileComponent
             await LoadFileEventsScript();
             await LoadPasteScript();
             await LoadDragAdnDropScripts();
+            await RegisterSelectionNotifierAsync();
         }
+    }
+
+    /// <summary>
+    /// Hooks the native `change` event (via JS) so <see cref="OnSelected"/> is raised the
+    /// instant files are picked — before Blazor's own change pipeline or any byte read.
+    /// </summary>
+    async Task RegisterSelectionNotifierAsync()
+    {
+        if (SelectionNotifierRegistered || !OnSelected.HasDelegate || FileEventScriptsReference is null)
+            return;
+
+        try
+        {
+            SelfReference ??= DotNetObjectReference.Create(this);
+            await FileEventScriptsReference.InvokeVoidAsync("RegisterSelectionNotifier", InputFileReference, SelfReference);
+            SelectionNotifierRegistered = true;
+        }
+        catch (Exception ex)
+        {
+            // Best-effort early notification; the in-Change fallback still raises OnSelected.
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Invoked from JS the moment a selection happens, carrying metadata only (no bytes read).
+    /// </summary>
+    /// <param name="files">Basic metadata for the selected files.</param>
+    [JSInvokable]
+    public async Task NotifySelected(FileBasicInfo[] files)
+    {
+        if (!OnSelected.HasDelegate || files is null || files.Length == 0)
+            return;
+
+        List<FileUploadContent> metadata = new(files.Length);
+        long totalSize = 0;
+        foreach (FileBasicInfo file in files)
+        {
+            metadata.Add(new FileUploadContent
+            {
+                Name = file.Name,
+                LastModified = file.LastModifiedDateTime,
+                Size = file.Size,
+                ContentType = file.Type
+            });
+            totalSize += file.Size;
+        }
+
+        await OnSelected.InvokeAsync(new FilesUploadEventArgs
+        {
+            Files = metadata,
+            Count = metadata.Count,
+            Size = totalSize,
+            Action = EventAction.Change
+        });
     }
 
     async Task OnClick()

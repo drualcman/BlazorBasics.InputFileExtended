@@ -18,9 +18,30 @@ public partial class InputFileComponent : IDisposable, IAsyncDisposable
     /// <returns></returns>
     public async ValueTask DisposeAsync()
     {
+        await UnregisterSelectionNotifierAsync();
         await UnLoadPasteScript();
         await UnLoadDropScriptsAsync();
         await UnLoadFileEventsScript();
+        SelfReference?.Dispose();
         GlobalEvents.ItemDeleted -= RemoveFile;
+    }
+
+    async Task UnregisterSelectionNotifierAsync()
+    {
+        if (!SelectionNotifierRegistered || FileEventScriptsReference is null)
+            return;
+
+        try
+        {
+            await FileEventScriptsReference.InvokeVoidAsync("UnregisterSelectionNotifier", InputFileReference);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            SelectionNotifierRegistered = false;
+        }
     }
 }

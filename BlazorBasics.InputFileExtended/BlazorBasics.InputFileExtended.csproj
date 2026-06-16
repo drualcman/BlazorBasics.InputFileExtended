@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<Version>3.9.45</Version>
+		<Version>3.9.46</Version>
 		<Authors>Sergi Ortiz Gomez</Authors>
 		<Company>DrUalcman</Company>
 		<Description>
@@ -19,7 +19,8 @@
 		<PackageProjectUrl>https://blazorinputfileextended.community-mall.com/</PackageProjectUrl>
 		<PackageTags>Components;Blazor;WebAssembly;InputFile;FileUpload;BlazorFileUpload;drag and drop;drop files</PackageTags>
 		<PackageReleaseNotes>
-			Version 3.9.45: Fixed streaming mode accumulating files across selections causing false validation errors. Update dependencies.
+			Version 3.9.46: OnSelected now fires from a native JS change listener the instant files are picked (metadata only, before Blazor's change pipeline or any byte read) for the earliest possible UI feedback on heavy files; falls back to the in-Change notification if JS is unavailable. FileBasicInfo made public.
+			Version 3.9.45: Add OnSelected event raised the instant files are selected (name/size/type metadata, before reading bytes) so consumers can show immediate UI feedback for heavy files like videos. Fixed streaming mode accumulating files across selections causing false validation errors. Update dependencies.
 			Version 3.9.44: Fixed ExceptionType detection comparing count vs count instead of count vs bytes.
 			Version 3.9.43: Fixed notification on change.
 			Version 3.9.42: Change void to events handler events from void to Task. Removed StreamContent and replaced with byte[] in FileUploadContent object and UploadedImage property. Fixed send correct files collection to callback. Refactor how to throw exceptions. Update dependencies.
